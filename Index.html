@@ -5,869 +5,1803 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Paediatric & Neonatal TDG Hub | Rapid Non-Technical Decision Games</title>
 <style>
-  :root {
-    --bg-main: #f1f5f9;
-    --bg-card: #ffffff;
-    --bg-monitor: #0f172a;
-    --primary: #0284c7;
-    --primary-dark: #0369a1;
-    --secondary: #475569;
-    --accent-amber: #d97706;
-    --accent-amber-bg: #fef3c7;
-    --accent-red: #dc2626;
-    --accent-red-bg: #fee2e2;
-    --accent-green: #16a34a;
-    --accent-green-bg: #dcfce7;
-    --accent-purple: #7c3aed;
-    --accent-purple-bg: #ede9fe;
-    --text-main: #0f172a;
-    --text-muted: #64748b;
-    --border: #e2e8f0;
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-    --radius: 12px;
-  }
-
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--bg-main);
-    color: var(--text-main);
-    line-height: 1.5;
-    padding-bottom: 50px;
-  }
-
-  /* Header Bar */
-  header {
-    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
-    color: white;
-    padding: 16px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-  }
-
-  .brand-badge {
-    background: #38bdf8;
-    color: #0f172a;
-    font-weight: 800;
-    padding: 5px 9px;
-    border-radius: 6px;
-    font-size: 0.78rem;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-
-  .brand h1 {
-    font-size: 1.15rem;
-    font-weight: 700;
-  }
-
-  .header-controls {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .btn {
-    padding: 9px 14px;
-    border-radius: 8px;
-    border: none;
-    font-size: 0.88rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.18s;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    background: var(--primary);
-    color: white;
-  }
-
-  .btn:hover {
-    background: var(--primary-dark);
-  }
-
-  .btn-outline {
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.35);
-    color: white;
-  }
-
-  .btn-outline:hover {
-    background: rgba(255,255,255,0.22);
-  }
-
-  .btn-amber {
-    background: var(--accent-amber);
-    color: white;
-  }
-
-  .btn-amber:hover {
-    background: #b45309;
-  }
-
-  .btn-green {
-    background: var(--accent-green);
-    color: white;
-  }
-
-  .btn-green:hover {
-    background: #15803d;
-  }
-
-  .btn-secondary {
-    background: #64748b;
-    color: white;
-  }
-
-  .container {
-    max-width: 1140px;
-    margin: 24px auto;
-    padding: 0 16px;
-  }
-
-  /* HOME HUB VIEW (Scenario Cards Grid) */
-  .hero-banner {
-    background: white;
-    border-radius: var(--radius);
-    padding: 24px;
-    margin-bottom: 24px;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-
-  .hero-banner h2 {
-    font-size: 1.35rem;
-    margin-bottom: 6px;
-    color: var(--text-main);
-  }
-
-  .hero-banner p {
-    font-size: 0.95rem;
-    color: var(--secondary);
-    max-width: 720px;
-  }
-
-  .filter-bar {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .filter-chips {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .filter-chip {
-    padding: 8px 16px;
-    border-radius: 20px;
-    background: white;
-    border: 1px solid var(--border);
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--secondary);
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .filter-chip.active {
-    background: var(--primary);
-    color: white;
-    border-color: var(--primary);
-  }
-
-  .scenario-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 20px;
-  }
-
-  .scenario-card {
-    background: var(--bg-card);
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow);
-    padding: 22px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
-    cursor: pointer;
-    position: relative;
-  }
-
-  .scenario-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-    border-color: var(--primary);
-  }
-
-  .sc-top {
-    margin-bottom: 16px;
-  }
-
-  .sc-badges {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 12px;
-  }
-
-  .sc-title {
-    font-size: 1.12rem;
-    font-weight: 700;
-    color: var(--text-main);
-    margin-bottom: 8px;
-    line-height: 1.35;
-  }
-
-  .sc-summary {
-    font-size: 0.9rem;
-    color: var(--secondary);
-    margin-bottom: 14px;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .sc-nts-box {
-    background: #f8fafc;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 12px;
-    font-size: 0.82rem;
-    margin-bottom: 16px;
-  }
-
-  .sc-nts-box strong {
-    display: block;
-    color: var(--primary-dark);
-    text-transform: uppercase;
-    font-size: 0.72rem;
-    letter-spacing: 0.4px;
-    margin-bottom: 2px;
-  }
-
-  .sc-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 12px;
-    border-top: 1px solid var(--border);
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    font-weight: 600;
-  }
-
-  .card-action-btns {
-    display: flex;
-    gap: 6px;
-  }
-
-  /* Tags */
-  .tag {
-    font-size: 0.72rem;
-    font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 20px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .tag-blue { background: #e0f2fe; color: #0369a1; }
-  .tag-amber { background: var(--accent-amber-bg); color: #b45309; }
-  .tag-red { background: var(--accent-red-bg); color: #dc2626; }
-  .tag-green { background: var(--accent-green-bg); color: #16a34a; }
-  .tag-purple { background: var(--accent-purple-bg); color: #7c3aed; }
-
-  /* ACTIVE SCENARIO VIEW */
-  .top-nav-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 16px;
-  }
-
-  .stepper {
-    display: flex;
-    justify-content: space-between;
-    background: var(--bg-card);
-    padding: 12px;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    margin-bottom: 20px;
-    gap: 10px;
-  }
-
-  .step-item {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
-    border-radius: 8px;
-    background: #f8fafc;
-    border: 2px solid transparent;
-    color: var(--text-muted);
-    font-weight: 600;
-    font-size: 0.88rem;
-    cursor: pointer;
-  }
-
-  .step-item.active {
-    border-color: var(--primary);
-    background: #f0f9ff;
-    color: var(--primary-dark);
-  }
-
-  .step-item.completed {
-    background: var(--accent-green-bg);
-    color: var(--accent-green);
-  }
-
-  .step-num {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: #cbd5e1;
-    color: #1e293b;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-    font-weight: 700;
-    flex-shrink: 0;
-  }
-
-  .step-item.active .step-num {
-    background: var(--primary);
-    color: white;
-  }
-
-  .step-item.completed .step-num {
-    background: var(--accent-green);
-    color: white;
-  }
-
-  /* Grid Layout */
-  .workspace {
-    display: grid;
-    grid-template-columns: 1fr 350px;
-    gap: 20px;
-  }
-
-  @media (max-width: 900px) {
-    .workspace {
-      grid-template-columns: 1fr;
-    }
-    .stepper {
-      flex-direction: column;
-    }
-  }
-
-  .card {
-    background: var(--bg-card);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 22px;
-    margin-bottom: 20px;
-    border: 1px solid var(--border);
-  }
-
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .card-title {
-    font-size: 1.12rem;
-    font-weight: 700;
-    color: var(--text-main);
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .meta-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 12px;
-    background: #f8fafc;
-    padding: 14px;
-    border-radius: 8px;
-    margin-bottom: 18px;
-    border: 1px solid var(--border);
-  }
-
-  .meta-item span {
-    display: block;
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    font-weight: 700;
-  }
-
-  .meta-item strong {
-    font-size: 0.92rem;
-    color: var(--text-main);
-  }
-
-  .narrative-box {
-    font-size: 0.98rem;
-    color: #334155;
-    background: #ffffff;
-    line-height: 1.65;
-    margin-bottom: 20px;
-    white-space: pre-line;
-  }
-
-  .curveball-alert {
-    background: #fffbeb;
-    border-left: 5px solid var(--accent-amber);
-    padding: 16px;
-    border-radius: 6px;
-    margin-bottom: 20px;
-  }
-
-  .curveball-alert h4 {
-    color: #b45309;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 6px;
-  }
-
-  .prompt-box {
-    background: #f0f9ff;
-    border-left: 5px solid var(--primary);
-    padding: 16px;
-    border-radius: 6px;
-    margin-bottom: 20px;
-  }
-
-  .prompt-box h4 {
-    color: var(--primary-dark);
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-
-  .prompt-box p {
-    font-weight: 600;
-    color: #0c4a6e;
-  }
-
-  /* Debate / Tactical Stance Options */
-  .options-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 18px;
-  }
-
-  .option-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 13px 15px;
-    border: 2px solid var(--border);
-    border-radius: 8px;
-    background: #f8fafc;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .option-item:hover {
-    border-color: #93c5fd;
-    background: #f0f9ff;
-  }
-
-  .option-item input {
-    margin-top: 4px;
-    transform: scale(1.2);
-  }
-
-  textarea, input[type="text"], input[type="number"] {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 0.95rem;
-    margin-bottom: 16px;
-  }
-
-  /* Patient Monitor & Rapid Timer Sidebar */
-  .timer-card {
-    background: var(--bg-card);
-    border-radius: var(--radius);
-    padding: 18px;
-    box-shadow: var(--shadow);
-    border: 2px solid var(--border);
-    text-align: center;
-    margin-bottom: 20px;
-  }
-
-  .timer-display {
-    font-family: "Courier New", Courier, monospace;
-    font-size: 2.85rem;
-    font-weight: 800;
-    color: var(--text-main);
-    margin: 10px 0;
-    padding: 8px;
-    border-radius: 8px;
-    background: #f8fafc;
-    border: 2px solid var(--border);
-  }
-
-  .timer-display.warning {
-    color: var(--accent-amber);
-    border-color: var(--accent-amber);
-    background: var(--accent-amber-bg);
-  }
-
-  .timer-display.danger {
-    color: var(--accent-red);
-    border-color: var(--accent-red);
-    background: var(--accent-red-bg);
-    animation: pulse 0.7s infinite;
-  }
-
-  .timer-controls {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 12px;
-    flex-wrap: wrap;
-  }
-
-  .monitor {
-    background: var(--bg-monitor);
-    color: #f8fafc;
-    border-radius: var(--radius);
-    padding: 18px;
-    box-shadow: var(--shadow);
-    margin-bottom: 20px;
-    border: 2px solid #334155;
-  }
-
-  .monitor-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #334155;
-    padding-bottom: 10px;
-    margin-bottom: 14px;
-    font-size: 0.76rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #94a3b8;
-  }
-
-  .live-dot {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    background: #22c55e;
-    border-radius: 50%;
-    margin-right: 6px;
-    animation: pulse 1.4s infinite;
-  }
-
-  @keyframes pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.25; }
-    100% { opacity: 1; }
-  }
-
-  .vitals-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-
-  .vital-box {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.1);
-    padding: 10px;
-    border-radius: 6px;
-  }
-
-  .vital-label {
-    font-size: 0.68rem;
-    color: #94a3b8;
-    text-transform: uppercase;
-    font-weight: 700;
-  }
-
-  .vital-value {
-    font-family: "Courier New", Courier, monospace;
-    font-size: 1.22rem;
-    font-weight: 700;
-    margin-top: 2px;
-  }
-
-  .v-hr { color: #4ade80; }
-  .v-bp { color: #f87171; }
-  .v-spo2 { color: #38bdf8; }
-  .v-rr { color: #facc15; }
-  .v-temp { color: #c084fc; }
-  .v-news { color: #fb923c; }
-
-  /* Debrief Comparison Table */
-  .debrief-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 20px;
-  }
-
-  @media (max-width: 700px) {
-    .debrief-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .debrief-col {
-    background: #f8fafc;
-    padding: 16px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-  }
-
-  .debrief-col h4 {
-    font-size: 0.88rem;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 10px;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 6px;
-  }
-
-  /* Modal / Template Builder */
-  .modal-overlay {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(15, 23, 42, 0.75);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    padding: 14px;
-  }
-
-  .modal-overlay.open {
-    display: flex;
-  }
-
-  .modal-content {
-    background: white;
-    max-width: 850px;
-    width: 100%;
-    max-height: 90vh;
-    border-radius: 12px;
-    padding: 22px;
-    overflow-y: auto;
-    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.25);
-  }
-
-  .form-section {
-    background: #f8fafc;
-    padding: 14px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    margin-bottom: 16px;
-  }
-
-  .form-section h3 {
-    font-size: 0.95rem;
-    margin-bottom: 10px;
-    color: var(--primary-dark);
-  }
-
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  @media (max-width: 650px) {
-    .form-row {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  label {
-    display: block;
-    font-size: 0.82rem;
-    font-weight: 700;
-    color: var(--secondary);
-    margin-bottom: 4px;
-  }
-
-  .hidden {
-    display: none !important;
-  }
+:root {
+--bg-main: #f1f5f9;
+--bg-card: #ffffff;
+--bg-monitor: #0f172a;
+--primary: #0284c7;
+--primary-dark: #0369a1;
+--secondary: #475569;
+--accent-amber: #d97706;
+--accent-amber-bg: #fef3c7;
+--accent-red: #dc2626;
+--accent-red-bg: #fee2e2;
+--accent-green: #16a34a;
+--accent-green-bg: #dcfce7;
+--accent-purple: #7c3aed;
+--accent-purple-bg: #ede9fe;
+--text-main: #0f172a;
+--text-muted: #64748b;
+--border: #e2e8f0;
+--shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+--radius: 12px;
+}
+
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+
+body {
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+background-color: var(--bg-main);
+color: var(--text-main);
+line-height: 1.5;
+padding-bottom: 50px;
+}
+
+/* Header Bar */
+header {
+background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+color: white;
+padding: 16px 20px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+flex-wrap: wrap;
+gap: 12px;
+box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+position: sticky;
+top: 0;
+z-index: 100;
+}
+
+.brand {
+display: flex;
+align-items: center;
+gap: 10px;
+cursor: pointer;
+}
+
+.brand-badge {
+background: #38bdf8;
+color: #0f172a;
+font-weight: 800;
+padding: 5px 9px;
+border-radius: 6px;
+font-size: 0.78rem;
+letter-spacing: 0.5px;
+text-transform: uppercase;
+}
+
+.brand h1 {
+font-size: 1.15rem;
+font-weight: 700;
+}
+
+.header-controls {
+display: flex;
+align-items: center;
+gap: 8px;
+flex-wrap: wrap;
+}
+
+.btn {
+padding: 9px 14px;
+border-radius: 8px;
+border: none;
+font-size: 0.88rem;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.18s;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+gap: 6px;
+background: var(--primary);
+color: white;
+}
+
+.btn:hover {
+background: var(--primary-dark);
+}
+
+.btn-outline {
+background: rgba(255,255,255,0.12);
+border: 1px solid rgba(255,255,255,0.35);
+color: white;
+}
+
+.btn-outline:hover {
+background: rgba(255,255,255,0.22);
+}
+
+.btn-amber {
+background: var(--accent-amber);
+color: white;
+}
+
+.btn-amber:hover {
+background: #b45309;
+}
+
+.btn-green {
+background: var(--accent-green);
+color: white;
+}
+
+.btn-green:hover {
+background: #15803d;
+}
+
+.btn-secondary {
+background: #64748b;
+color: white;
+}
+
+.container {
+max-width: 1140px;
+margin: 24px auto;
+padding: 0 16px;
+}
+
+/* HOME HUB VIEW (Scenario Cards Grid) */
+.hero-banner {
+background: white;
+border-radius: var(--radius);
+padding: 24px;
+margin-bottom: 24px;
+border: 1px solid var(--border);
+box-shadow: var(--shadow);
+display: flex;
+justify-content: space-between;
+align-items: center;
+flex-wrap: wrap;
+gap: 16px;
+}
+
+.hero-banner h2 {
+font-size: 1.35rem;
+margin-bottom: 6px;
+color: var(--text-main);
+}
+
+.hero-banner p {
+font-size: 0.95rem;
+color: var(--secondary);
+max-width: 720px;
+}
+
+.filter-bar {
+display: flex;
+gap: 8px;
+flex-wrap: wrap;
+margin-bottom: 20px;
+justify-content: space-between;
+align-items: center;
+}
+
+.filter-chips {
+display: flex;
+gap: 8px;
+flex-wrap: wrap;
+}
+
+.filter-chip {
+padding: 8px 16px;
+border-radius: 20px;
+background: white;
+border: 1px solid var(--border);
+font-size: 0.85rem;
+font-weight: 600;
+color: var(--secondary);
+cursor: pointer;
+transition: all 0.15s;
+}
+
+.filter-chip.active {
+background: var(--primary);
+color: white;
+border-color: var(--primary);
+}
+
+.scenario-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+gap: 20px;
+}
+
+.scenario-card {
+background: var(--bg-card);
+border-radius: var(--radius);
+border: 1px solid var(--border);
+box-shadow: var(--shadow);
+padding: 22px;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+cursor: pointer;
+position: relative;
+}
+
+.scenario-card:hover {
+transform: translateY(-3px);
+box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+border-color: var(--primary);
+}
+
+.sc-top {
+margin-bottom: 16px;
+}
+
+.sc-badges {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 8px;
+flex-wrap: wrap;
+margin-bottom: 12px;
+}
+
+.sc-title {
+font-size: 1.12rem;
+font-weight: 700;
+color: var(--text-main);
+margin-bottom: 8px;
+line-height: 1.35;
+}
+
+.sc-summary {
+font-size: 0.9rem;
+color: var(--secondary);
+margin-bottom: 14px;
+display: -webkit-box;
+-webkit-line-clamp: 3;
+-webkit-box-orient: vertical;
+overflow: hidden;
+}
+
+.sc-nts-box {
+background: #f8fafc;
+border: 1px solid var(--border);
+border-radius: 8px;
+padding: 10px 12px;
+font-size: 0.82rem;
+margin-bottom: 16px;
+}
+
+.sc-nts-box strong {
+display: block;
+color: var(--primary-dark);
+text-transform: uppercase;
+font-size: 0.72rem;
+letter-spacing: 0.4px;
+margin-bottom: 2px;
+}
+
+.sc-footer {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding-top: 12px;
+border-top: 1px solid var(--border);
+font-size: 0.82rem;
+color: var(--text-muted);
+font-weight: 600;
+}
+
+.card-action-btns {
+display: flex;
+gap: 6px;
+}
+
+/* Tags */
+.tag {
+font-size: 0.72rem;
+font-weight: 700;
+padding: 4px 10px;
+border-radius: 20px;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.tag-blue { background: #e0f2fe; color: #0369a1; }
+.tag-amber { background: var(--accent-amber-bg); color: #b45309; }
+.tag-red { background: var(--accent-red-bg); color: #dc2626; }
+.tag-green { background: var(--accent-green-bg); color: #16a34a; }
+.tag-purple { background: var(--accent-purple-bg); color: #7c3aed; }
+
+/* ACTIVE SCENARIO VIEW */
+.top-nav-bar {
+display: flex;
+justify-content: space-between;
+align-items: center;
+flex-wrap: wrap;
+gap: 10px;
+margin-bottom: 16px;
+}
+
+.stepper {
+display: flex;
+justify-content: space-between;
+background: var(--bg-card);
+padding: 12px;
+border-radius: var(--radius);
+box-shadow: var(--shadow);
+margin-bottom: 20px;
+gap: 10px;
+}
+
+.step-item {
+flex: 1;
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 10px 12px;
+border-radius: 8px;
+background: #f8fafc;
+border: 2px solid transparent;
+color: var(--text-muted);
+font-weight: 600;
+font-size: 0.88rem;
+cursor: pointer;
+}
+
+.step-item.active {
+border-color: var(--primary);
+background: #f0f9ff;
+color: var(--primary-dark);
+}
+
+.step-item.completed {
+background: var(--accent-green-bg);
+color: var(--accent-green);
+}
+
+.step-num {
+width: 26px;
+height: 26px;
+border-radius: 50%;
+background: #cbd5e1;
+color: #1e293b;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 0.8rem;
+font-weight: 700;
+flex-shrink: 0;
+}
+
+.step-item.active .step-num {
+background: var(--primary);
+color: white;
+}
+
+.step-item.completed .step-num {
+background: var(--accent-green);
+color: white;
+}
+
+/* Grid Layout */
+.workspace {
+display: grid;
+grid-template-columns: 1fr 350px;
+gap: 20px;
+}
+
+@media (max-width: 900px) {
+.workspace {
+grid-template-columns: 1fr;
+}
+.stepper {
+flex-direction: column;
+}
+}
+
+.card {
+background: var(--bg-card);
+border-radius: var(--radius);
+box-shadow: var(--shadow);
+padding: 22px;
+margin-bottom: 20px;
+border: 1px solid var(--border);
+}
+
+.card-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+flex-wrap: wrap;
+gap: 8px;
+margin-bottom: 16px;
+padding-bottom: 12px;
+border-bottom: 1px solid var(--border);
+}
+
+.card-title {
+font-size: 1.12rem;
+font-weight: 700;
+color: var(--text-main);
+display: flex;
+align-items: center;
+flex-wrap: wrap;
+gap: 8px;
+}
+
+.meta-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+gap: 12px;
+background: #f8fafc;
+padding: 14px;
+border-radius: 8px;
+margin-bottom: 18px;
+border: 1px solid var(--border);
+}
+
+.meta-item span {
+display: block;
+font-size: 0.72rem;
+text-transform: uppercase;
+color: var(--text-muted);
+font-weight: 700;
+}
+
+.meta-item strong {
+font-size: 0.92rem;
+color: var(--text-main);
+}
+
+.narrative-box {
+font-size: 0.98rem;
+color: #334155;
+background: #ffffff;
+line-height: 1.65;
+margin-bottom: 20px;
+white-space: pre-line;
+}
+
+.curveball-alert {
+background: #fffbeb;
+border-left: 5px solid var(--accent-amber);
+padding: 16px;
+border-radius: 6px;
+margin-bottom: 20px;
+}
+
+.curveball-alert h4 {
+color: #b45309;
+font-size: 0.9rem;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+margin-bottom: 6px;
+}
+
+.prompt-box {
+background: #f0f9ff;
+border-left: 5px solid var(--primary);
+padding: 16px;
+border-radius: 6px;
+margin-bottom: 20px;
+}
+
+.prompt-box h4 {
+color: var(--primary-dark);
+font-size: 0.85rem;
+text-transform: uppercase;
+margin-bottom: 6px;
+}
+
+.prompt-box p {
+font-weight: 600;
+color: #0c4a6e;
+}
+
+/* Debate / Tactical Stance Options */
+.options-list {
+display: flex;
+flex-direction: column;
+gap: 10px;
+margin-bottom: 18px;
+}
+
+.option-item {
+display: flex;
+align-items: flex-start;
+gap: 10px;
+padding: 13px 15px;
+border: 2px solid var(--border);
+border-radius: 8px;
+background: #f8fafc;
+cursor: pointer;
+transition: all 0.15s;
+}
+
+.option-item:hover {
+border-color: #93c5fd;
+background: #f0f9ff;
+}
+
+.option-item input {
+margin-top: 4px;
+transform: scale(1.2);
+}
+
+textarea, input[type="text"], input[type="number"] {
+width: 100%;
+padding: 12px;
+border: 1px solid #cbd5e1;
+border-radius: 8px;
+font-family: inherit;
+font-size: 0.95rem;
+margin-bottom: 16px;
+}
+
+/* Patient Monitor & Rapid Timer Sidebar */
+.timer-card {
+background: var(--bg-card);
+border-radius: var(--radius);
+padding: 18px;
+box-shadow: var(--shadow);
+border: 2px solid var(--border);
+text-align: center;
+margin-bottom: 20px;
+}
+
+.timer-display {
+font-family: "Courier New", Courier, monospace;
+font-size: 2.85rem;
+font-weight: 800;
+color: var(--text-main);
+margin: 10px 0;
+padding: 8px;
+border-radius: 8px;
+background: #f8fafc;
+border: 2px solid var(--border);
+}
+
+.timer-display.warning {
+color: var(--accent-amber);
+border-color: var(--accent-amber);
+background: var(--accent-amber-bg);
+}
+
+.timer-display.danger {
+color: var(--accent-red);
+border-color: var(--accent-red);
+background: var(--accent-red-bg);
+animation: pulse 0.7s infinite;
+}
+
+.timer-controls {
+display: flex;
+justify-content: center;
+gap: 8px;
+margin-top: 12px;
+flex-wrap: wrap;
+}
+
+.monitor {
+background: var(--bg-monitor);
+color: #f8fafc;
+border-radius: var(--radius);
+padding: 18px;
+box-shadow: var(--shadow);
+margin-bottom: 20px;
+border: 2px solid #334155;
+}
+
+.monitor-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+border-bottom: 1px solid #334155;
+padding-bottom: 10px;
+margin-bottom: 14px;
+font-size: 0.76rem;
+text-transform: uppercase;
+letter-spacing: 1px;
+color: #94a3b8;
+}
+
+.live-dot {
+display: inline-block;
+width: 8px;
+height: 8px;
+background: #22c55e;
+border-radius: 50%;
+margin-right: 6px;
+animation: pulse 1.4s infinite;
+}
+
+@keyframes pulse {
+0% { opacity: 1; }
+50% { opacity: 0.25; }
+100% { opacity: 1; }
+}
+
+.vitals-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 10px;
+}
+
+.vital-box {
+background: rgba(255,255,255,0.04);
+border: 1px solid rgba(255,255,255,0.1);
+padding: 10px;
+border-radius: 6px;
+}
+
+.vital-label {
+font-size: 0.68rem;
+color: #94a3b8;
+text-transform: uppercase;
+font-weight: 700;
+}
+
+.vital-value {
+font-family: "Courier New", Courier, monospace;
+font-size: 1.22rem;
+font-weight: 700;
+margin-top: 2px;
+}
+
+.v-hr { color: #4ade80; }
+.v-bp { color: #f87171; }
+.v-spo2 { color: #38bdf8; }
+.v-rr { color: #facc15; }
+.v-temp { color: #c084fc; }
+.v-news { color: #fb923c; }
+
+/* Debrief Comparison Table */
+.debrief-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 16px;
+margin-bottom: 20px;
+}
+
+@media (max-width: 700px) {
+.debrief-grid {
+grid-template-columns: 1fr;
+}
+}
+
+.debrief-col {
+background: #f8fafc;
+padding: 16px;
+border-radius: 8px;
+border: 1px solid var(--border);
+}
+
+.debrief-col h4 {
+font-size: 0.88rem;
+text-transform: uppercase;
+color: var(--text-muted);
+margin-bottom: 10px;
+border-bottom: 1px solid var(--border);
+padding-bottom: 6px;
+}
+
+/* Modal / Template Builder */
+.modal-overlay {
+position: fixed;
+top: 0; left: 0; right: 0; bottom: 0;
+background: rgba(15, 23, 42, 0.75);
+display: none;
+align-items: center;
+justify-content: center;
+z-index: 1000;
+padding: 14px;
+}
+
+.modal-overlay.open {
+display: flex;
+}
+
+.modal-content {
+background: white;
+max-width: 850px;
+width: 100%;
+max-height: 90vh;
+border-radius: 12px;
+padding: 22px;
+overflow-y: auto;
+box-shadow: 0 20px 25px -5px rgba(0,0,0,0.25);
+}
+
+.form-section {
+background: #f8fafc;
+padding: 14px;
+border-radius: 8px;
+border: 1px solid var(--border);
+margin-bottom: 16px;
+}
+
+.form-section h3 {
+font-size: 0.95rem;
+margin-bottom: 10px;
+color: var(--primary-dark);
+}
+
+.form-row {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 12px;
+}
+
+@media (max-width: 650px) {
+.form-row {
+grid-template-columns: 1fr;
+}
+}
+
+label {
+display: block;
+font-size: 0.82rem;
+font-weight: 700;
+color: var(--secondary);
+margin-bottom: 4px;
+}
+
+.hidden {
+display: none !important;
+}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="brand" onclick="showHomeHub()">
-    <span class="brand-badge">PAED &amp; NEO TDG</span>
-    <h1>Tactical Decision Games</h1>
-  </div>
-  <div class="header-controls">
-    <button class="btn btn-outline" id="homeNavBtn" onclick="showHomeHub()">All Scenarios</button>
-    <button class="btn btn-outline" onclick="openBuilderModalForNew()">+ Create TDG</button>
-    <button class="btn btn-outline" onclick="exportAllJSON()">Export Pack</button>
-    <label class="btn btn-outline" style="margin:0; cursor:pointer;">
-      Import JSON <input type="file" accept=".json" onchange="importJSONFile(event)" style="display:none;">
-    </label>
-  </div>
+<div class="brand" onclick="showHomeHub()">
+<span class="brand-badge">PAED &amp; NEO TDG</span>
+<h1>Tactical Decision Games</h1>
+</div>
+<div class="header-controls">
+<button class="btn btn-outline" id="homeNavBtn" onclick="showHomeHub()">All Scenarios</button>
+<button class="btn btn-outline" onclick="openBuilderModalForNew()">+ Create TDG</button>
+<button class="btn btn-outline" onclick="exportAllJSON()">Export Pack</button>
+<label class="btn btn-outline" style="margin:0; cursor:pointer;">
+Import JSON <input type="file" accept=".json" onchange="importJSONFile(event)" style="display:none;">
+</label>
+</div>
 </header>
 
 <div class="container">
 
-  <!-- ==================== VIEW 1: SCENARIO HUB (MAIN PAGE) ==================== -->
-  <div id="homeHubView">
-    <div class="hero-banner">
-      <div>
-        <h2>Paediatric &amp; Neonatal Tactical Decision Hub</h2>
-        <p>Rapid, 2-stage clinical decision games designed to spark team debate around crisis resource management, authority gradients, competing priorities, and cognitive biases under strict time pressure (45&ndash;60s).</p>
-      </div>
-      <div>
-        <button class="btn" onclick="openBuilderModalForNew()">+ Add New Scenario Variation</button>
-      </div>
-    </div>
+<!-- ==================== VIEW 1: SCENARIO HUB (MAIN PAGE) ==================== -->
+<div id="homeHubView">
+<div class="hero-banner">
+<div>
+<h2>Paediatric &amp; Neonatal Tactical Decision Hub</h2>
+<p>Rapid, 2-stage clinical decision games designed to spark team debate around crisis resource management, authority gradients, competing priorities, and cognitive biases under strict time pressure (45&ndash;60s).</p>
+</div>
+<div>
+<button class="btn" onclick="openBuilderModalForNew()">+ Add New Scenario Variation</button>
+</div>
+</div>
 
-    <div class="filter-bar">
-      <div class="filter-chips">
-        <button class="filter-chip active" id="filter-all" onclick="setSpecialtyFilter('ALL')">All Scenarios</button>
-        <button class="filter-chip" id="filter-neo" onclick="setSpecialtyFilter('Neonatal')">Neonatal</button>
-        <button class="filter-chip" id="filter-paed" onclick="setSpecialtyFilter('Paediatric')">Paediatric</button>
-      </div>
-      <div style="font-size:0.85rem; color:var(--text-muted);">
-        💡 To edit a scenario, click <strong>"Edit"</strong> on any card or export/import JSON packs.
-      </div>
-    </div>
+<div class="filter-bar">
+<div class="filter-chips">
+<button class="filter-chip active" id="filter-all" onclick="setSpecialtyFilter('ALL')">All Scenarios</button>
+<button class="filter-chip" id="filter-neo" onclick="setSpecialtyFilter('Neonatal')">Neonatal</button>
+<button class="filter-chip" id="filter-paed" onclick="setSpecialtyFilter('Paediatric')">Paediatric</button>
+</div>
+<div style="font-size:0.85rem; color:var(--text-muted);">
+💡 To edit a scenario, click <strong>"Edit"</strong> on any card or export/import JSON packs.
+</div>
+</div>
 
-    <div class="scenario-grid" id="scenarioGrid"></div>
-  </div>
+<div class="scenario-grid" id="scenarioGrid"></div>
+</div>
 
-  <!-- ==================== VIEW 2: ACTIVE SCENARIO PLAYER ==================== -->
-  <div id="scenarioPlayerView" class="hidden">
-    <div class="top-nav-bar">
-      <button class="btn btn-secondary" onclick="showHomeHub()">&larr; Back to Scenario Hub</button>
-      <div style="display:flex; gap:8px; align-items:center;">
-        <span style="font-size:0.85rem; font-weight:700; color:var(--secondary);" id="activeNtsFocusBanner"></span>
-        <button class="btn btn-amber" onclick="openBuilderModalForEdit(currentScenario.id)" style="padding:6px 12px; font-size:0.8rem;">✏️ Edit This Scenario</button>
-      </div>
-    </div>
+<!-- ==================== VIEW 2: ACTIVE SCENARIO PLAYER ==================== -->
+<div id="scenarioPlayerView" class="hidden">
+<div class="top-nav-bar">
+<button class="btn btn-secondary" onclick="showHomeHub()">&larr; Back to Scenario Hub</button>
+<div style="display:flex; gap:8px; align-items:center;">
+<span style="font-size:0.85rem; font-weight:700; color:var(--secondary);" id="activeNtsFocusBanner"></span>
+<button class="btn btn-amber" onclick="openBuilderModalForEdit(currentScenario.id)" style="padding:6px 12px; font-size:0.8rem;">✏️ Edit This Scenario</button>
+</div>
+</div>
 
-    <!-- Interactive Phase Stepper -->
-    <div class="stepper">
-      <div class="step-item active" id="stepTab1" onclick="goToPhase(1)">
-        <div class="step-num">1</div>
-        <div>
-          <div>Stage 1: Initial Dilemma</div>
-          <small style="font-weight:400; font-size:0.75rem;">Rapid Timed Decision 1</small>
-        </div>
-      </div>
-      <div class="step-item" id="stepTab2" onclick="goToPhase(2)">
-        <div class="step-num">2</div>
-        <div>
-          <div>Stage 2: The Curveball</div>
-          <small style="font-weight:400; font-size:0.75rem;">New Info &amp; Timed Decision 2</small>
-        </div>
-      </div>
-      <div class="step-item" id="stepTab3" onclick="goToPhase(3)">
-        <div class="step-num">3</div>
-        <div>
-          <div>Stage 3: Team Debate &amp; Debrief</div>
-          <small style="font-weight:400; font-size:0.75rem;">Trade-Offs &amp; Human Factors</small>
-        </div>
-      </div>
-    </div>
+<!-- Interactive Phase Stepper -->
+<div class="stepper">
+<div class="step-item active" id="stepTab1" onclick="goToPhase(1)">
+<div class="step-num">1</div>
+<div>
+<div>Stage 1: Initial Dilemma</div>
+<small style="font-weight:400; font-size:0.75rem;">Rapid Timed Decision 1</small>
+</div>
+</div>
+<div class="step-item" id="stepTab2" onclick="goToPhase(2)">
+<div class="step-num">2</div>
+<div>
+<div>Stage 2: The Curveball</div>
+<small style="font-weight:400; font-size:0.75rem;">New Info &amp; Timed Decision 2</small>
+</div>
+</div>
+<div class="step-item" id="stepTab3" onclick="goToPhase(3)">
+<div class="step-num">3</div>
+<div>
+<div>Stage 3: Team Debate &amp; Debrief</div>
+<small style="font-weight:400; font-size:0.75rem;">Trade-Offs &amp; Human Factors</small>
+</div>
+</div>
+</div>
 
-    <div class="workspace">
-      <!-- Left Column: Scenario & Decision Flow -->
-      <div class="main-panel">
+<div class="workspace">
+<!-- Left Column: Scenario & Decision Flow -->
+<div class="main-panel">
 
-        <!-- PHASE 1 VIEW -->
-        <div id="phase1View" class="card">
-          <div class="card-header">
-            <div class="card-title">
-              <span class="tag tag-blue">Stage 1</span>
-              <span id="p1Title">Scenario Title</span>
-            </div>
-            <span id="p1Specialty" class="tag tag-purple">Specialty</span>
-          </div>
+<!-- PHASE 1 VIEW -->
+<div id="phase1View" class="card">
+<div class="card-header">
+<div class="card-title">
+<span class="tag tag-blue">Stage 1</span>
+<span id="p1Title">Scenario Title</span>
+</div>
+<span id="p1Specialty" class="tag tag-purple">Specialty</span>
+</div>
 
-          <div class="meta-grid">
-            <div class="meta-item">
-              <span>Your Role</span>
-              <strong id="p1Role">-</strong>
-            </div>
-            <div class="meta-item">
-              <span>Setting &amp; Shift</span>
-              <strong id="p1Setting">-</strong>
-            </div>
-            <div class="meta-item">
-              <span>Team &amp; Constraints</span>
-              <strong id="p1Resources">-</strong>
-            </div>
-          </div>
+<div class="meta-grid">
+<div class="meta-item">
+<span>Your Role</span>
+<strong id="p1Role">-</strong>
+</div>
+<div class="meta-item">
+<span>Setting &amp; Shift</span>
+<strong id="p1Setting">-</strong>
+</div>
+<div class="meta-item">
+<span>Team &amp; Constraints</span>
+<strong id="p1Resources">-</strong>
+</div>
+</div>
 
-          <h4 style="margin-bottom:8px; color:var(--secondary); font-size:0.82rem; text-transform:uppercase;">Presenting Situation</h4>
-          <div class="narrative-box" id="p1Narrative"></div>
+<h4 style="margin-bottom:8px; color:var(--secondary); font-size:0.82rem; text-transform:uppercase;">Presenting Situation</h4>
+<div class="narrative-box" id="p1Narrative"></div>
 
-          <div class="prompt-box">
-            <h4>Rapid Tactical Decision 1 (Commit Before Timer Expires)</h4>
-            <p id="p1Prompt"></p>
-          </div>
+<div class="prompt-box">
+<h4>Rapid Tactical Decision 1 (Commit Before Timer Expires)</h4>
+<p id="p1Prompt"></p>
+</div>
 
-          <!-- In-card Rapid Timer Widget Stage 1 -->
-          <div cl
+<!-- In-card Rapid Timer Widget Stage 1 -->
+<div class="timer-card" style="margin-bottom: 18px; padding: 14px; border: 2px solid var(--primary); background: #f0f9ff;">
+<div style="font-size:0.75rem; font-weight:700; text-transform:uppercase; color:var(--primary-dark);" id="timerLabelP1">
+Stage 1 Rapid Decision Timer
+</div>
+<div class="timer-display" id="timerDisplayP1" style="font-size: 2.2rem; margin: 6px 0; background: white;">01:00</div>
+<div style="font-size:0.78rem; color:var(--primary-dark);" id="timerStatusP1">Rapid clock paused — tap Start</div>
+<div class="timer-controls" style="margin-top: 8px;">
+<button class="btn btn-green" id="timerStartBtnP1" onclick="toggleTimer()" style="padding: 6px 14px; font-size: 0.82rem;">Start Clock</button>
+<button class="btn btn-secondary" onclick="resetTimer()" style="padding: 6px 14px; font-size: 0.82rem;">Reset</button>
+<button class="btn" style="background:#94a3b8; padding: 6px 14px; font-size: 0.82rem;" onclick="add15Sec()">+15s</button>
+</div>
+</div>
+
+<label for="p1UserNotes">Your Immediate Action Plan &amp; Justification (Free text response):</label>
+<textarea id="p1UserNotes" rows="3" placeholder="State your primary stance, task delegation, and exact communication..."></textarea>
+
+<h4 style="margin-bottom:10px; font-size:0.9rem;">Competing Tactical Stances (Optional Quick-Check / Debate Options):</h4>
+<div id="p1Options" class="options-list"></div>
+
+<div style="display:flex; justify-content:flex-end; align-items:center; flex-wrap:wrap; gap:10px;">
+<button class="btn btn-amber" onclick="lockPhase1AndAdvance()">Commit Decision 1 &amp; Reveal Stage 2 Curveball &rarr;</button>
+</div>
+</div>
+
+<!-- PHASE 2 VIEW (EVOLVING STEP) -->
+<div id="phase2View" class="card hidden">
+<div class="card-header">
+<div class="card-title">
+<span class="tag tag-amber">Stage 2: Evolving Situation</span>
+<span id="p2Title">Evolving Situation</span>
+</div>
+<span class="tag tag-red">Monitor Updated</span>
+</div>
+
+<div style="background:#f8fafc; padding:12px 16px; border-radius:8px; margin-bottom:18px; border:1px solid var(--border); font-size:0.88rem;">
+<strong>Your Stage 1 Committed Stance:</strong>
+<div id="p1SummaryInP2" style="color:var(--secondary); margin-top:4px; white-space:pre-line;"></div>
+</div>
+
+<div class="curveball-alert">
+<h4>Escalating Complication / New Information</h4>
+<div class="narrative-box" id="p2Narrative" style="background:transparent; margin-bottom:0;"></div>
+</div>
+
+<div class="prompt-box">
+<h4>Rapid Tactical Decision 2</h4>
+<p id="p2Prompt"></p>
+</div>
+
+<!-- In-card Rapid Timer Widget Stage 2 -->
+<div class="timer-card" style="margin-bottom: 18px; padding: 14px; border: 2px solid var(--accent-amber); background: #fffbeb;">
+<div style="font-size:0.75rem; font-weight:700; text-transform:uppercase; color:#b45309;" id="timerLabelP2">
+Stage 2 Rapid Decision Timer
+</div>
+<div class="timer-display" id="timerDisplayP2" style="font-size: 2.2rem; margin: 6px 0; background: white;">00:45</div>
+<div style="font-size:0.78rem; color:#b45309;" id="timerStatusP2">Rapid clock paused — tap Start</div>
+<div class="timer-controls" style="margin-top: 8px;">
+<button class="btn btn-green" id="timerStartBtnP2" onclick="toggleTimer()" style="padding: 6px 14px; font-size: 0.82rem;">Start Clock</button>
+<button class="btn btn-secondary" onclick="resetTimer()" style="padding: 6px 14px; font-size: 0.82rem;">Reset</button>
+<button class="btn" style="background:#94a3b8; padding: 6px 14px; font-size: 0.82rem;" onclick="add15Sec()">+15s</button>
+</div>
+</div>
+
+<label for="p2UserNotes">Your Adapted Plan &amp; Exact Communication / Escalation (Free text):</label>
+<textarea id="p2UserNotes" rows="3" placeholder="How do you adapt? What exact phrase or escalation tool do you use now?"></textarea>
+
+<h4 style="margin-bottom:10px; font-size:0.9rem;">Competing Tactical Stances (Stage 2):</h4>
+<div id="p2Options" class="options-list"></div>
+
+<div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+<button class="btn btn-secondary" onclick="goToPhase(1)">&larr; Back to Stage 1</button>
+<button class="btn btn-green" onclick="lockPhase2AndDebrief()">Lock Decision 2 &amp; Open Debate Guide &rarr;</button>
+</div>
+</div>
+
+<!-- PHASE 3 VIEW (DEBRIEF) -->
+<div id="phase3View" class="card hidden">
+<div class="card-header">
+<div class="card-title">
+<span class="tag tag-green">Stage 3</span>
+<span>Non-Technical Debrief &amp; Debate Points</span>
+</div>
+<button class="btn no-print" onclick="window.print()" style="padding:6px 12px; font-size:0.8rem;">Print / Save PDF</button>
+</div>
+
+<div class="debrief-grid">
+<div class="debrief-col">
+<h4>Stage 1: Your Choice vs. Tactical Trade-Offs</h4>
+<p style="font-size:0.82rem; font-weight:700; color:var(--primary-dark); margin-bottom:4px;">Your Logged Stance:</p>
+<div id="debriefUserP1" style="font-size:0.88rem; margin-bottom:14px; white-space:pre-line; background:white; padding:10px; border-radius:6px; border:1px solid var(--border);"></div>
+<p style="font-size:0.82rem; font-weight:700; color:var(--accent-green); margin-bottom:4px;">Tactical Analysis &amp; Trade-Offs (Stage 1):</p>
+<div id="debriefExpertP1" style="font-size:0.88rem; white-space:pre-line;"></div>
+</div>
+
+<div class="debrief-col">
+<h4>Stage 2: Your Adaptation vs. Tactical Trade-Offs</h4>
+<p style="font-size:0.82rem; font-weight:700; color:var(--primary-dark); margin-bottom:4px;">Your Logged Stance:</p>
+<div id="debriefUserP2" style="font-size:0.88rem; margin-bottom:14px; white-space:pre-line; background:white; padding:10px; border-radius:6px; border:1px solid var(--border);"></div>
+<p style="font-size:0.82rem; font-weight:700; color:var(--accent-green); margin-bottom:4px;">Tactical Analysis &amp; Trade-Offs (Stage 2):</p>
+<div id="debriefExpertP2" style="font-size:0.88rem; white-space:pre-line;"></div>
+</div>
+</div>
+
+<div class="card" style="background:#f8fafc; margin-bottom:16px;">
+<h4 style="color:var(--text-main); margin-bottom:8px;">Non-Technical Skills (NTS) &amp; Cognitive Biases</h4>
+<p id="debriefPitfalls" style="font-size:0.92rem; color:#334155; white-space:pre-line;"></p>
+</div>
+
+<div class="card" style="background:#f0f9ff; border-color:#bae6fd; margin-bottom:16px;">
+<h4 style="color:var(--primary-dark); margin-bottom:8px;">Team Debate &amp; Facilitator Prompts</h4>
+<div id="debriefQuestions" style="font-size:0.92rem; color:#0c4a6e; white-space:pre-line;"></div>
+</div>
+
+<div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;" class="no-print">
+<button class="btn btn-secondary" onclick="goToPhase(2)">&larr; Review Stage 2</button>
+<div style="display:flex; gap:8px;">
+<button class="btn" onclick="resetCurrentScenario()">Replay Scenario</button>
+<button class="btn btn-green" onclick="showHomeHub()">Return to Scenario Hub</button>
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- Right Column: Rapid Timer & Clinical Monitor -->
+<div class="side-panel">
+
+
+<!-- Patient Vitals / Status Monitor -->
+<div class="monitor">
+<div class="monitor-header">
+<span><span class="live-dot"></span>Paed / Neo Monitor</span>
+<span id="monitorPhaseTag">STAGE 1</span>
+</div>
+<div class="vitals-grid">
+<div class="vital-box">
+<div class="vital-label">HR (bpm)</div>
+<div class="vital-value v-hr" id="vHR">--</div>
+</div>
+<div class="vital-box">
+<div class="vital-label">BP / CRT</div>
+<div class="vital-value v-bp" id="vBP">--</div>
+</div>
+<div class="vital-box">
+<div class="vital-label">SpO2 (Pre/Post)</div>
+<div class="vital-value v-spo2" id="vSpO2">--</div>
+</div>
+<div class="vital-box">
+<div class="vital-label">RR / Airway</div>
+<div class="vital-value v-rr" id="vRR">--</div>
+</div>
+<div class="vital-box">
+<div class="vital-label">Temp (&deg;C)</div>
+<div class="vital-value v-temp" id="vTemp">--</div>
+</div>
+<div class="vital-box">
+<div class="vital-label">PEWS / NEWTT2</div>
+<div class="vital-value v-news" id="vNEWS">--</div>
+</div>
+</div>
+<div style="margin-top:14px; padding-top:12px; border-top:1px solid #334155; font-size:0.82rem; color:#cbd5e1;">
+<strong style="color:#38bdf8;">Clinical / Ward Note:</strong> <span id="vNote">-</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- TEMPLATE BUILDER / EDIT MODAL -->
+<div class="modal-overlay" id="builderModal">
+<div class="modal-content">
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; border-bottom:1px solid var(--border); padding-bottom:12px;">
+<h2 id="builderModalTitle">Create / Edit Paediatric &amp; Neonatal TDG</h2>
+<button class="btn btn-secondary" onclick="closeBuilderModal()">Close</button>
+</div>
+<p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:16px;">
+Modify the fields below to update or create your scenario. To put edits back into the resource permanently, click <strong>"Save Scenario"</strong>. You can also export/import your entire scenario pack as a JSON file anytime.
+</p>
+
+<input type="hidden" id="bEditId" value="">
+
+<div class="form-section">
+<h3>1. Scenario Card &amp; Non-Technical Focus</h3>
+<div class="form-row">
+<div>
+<label>Scenario Title</label>
+<input type="text" id="bTitle" placeholder="e.g., The Silent Preterm Intubation">
+</div>
+<div>
+<label>Category (Neonatal or Paediatric)</label>
+<input type="text" id="bSpecialty" placeholder="Neonatal / NICU or Paediatric Emergency">
+</div>
+</div>
+<div class="form-row">
+<div>
+<label>Non-Technical Skills (NTS) Focus</label>
+<input type="text" id="bNtsFocus" placeholder="e.g., Authority Gradient, Fixation Error &amp; Graded Assertiveness">
+</div>
+<div>
+<label>Player Role</label>
+<input type="text" id="bRole" placeholder="e.g., ST2 Paediatric Trainee / Band 6 NICU Nurse">
+</div>
+</div>
+<div class="form-row">
+<div>
+<label>Setting &amp; Shift</label>
+<input type="text" id="bSetting" placeholder="e.g., Delivery Suite Resuscitaire, 03:15 AM">
+</div>
+<div>
+<label>Team &amp; Constraints</label>
+<input type="text" id="bResources" placeholder="e.g., 1 Midwife, 1 Senior Reg; Consultant 20 mins away">
+</div>
+</div>
+</div>
+
+<div class="form-section">
+<h3>2. Stage 1: Initial Dilemma &amp; Rapid Timer</h3>
+<label>Initial Situation Narrative</label>
+<textarea id="bP1Narrative" rows="3" placeholder="Set up the clinical and team dilemma..."></textarea>
+<div class="form-row">
+<div>
+<label>Stage 1 Prompt</label>
+<input type="text" id="bP1Prompt" placeholder="You have 60 seconds. Which path do you take and why?">
+</div>
+<div>
+<label>Stage 1 Rapid Timer (Seconds)</label>
+<input type="number" id="bP1Timer" value="60">
+</div>
+</div>
+<div class="form-row">
+<div>
+<label>Stage 1 Vitals (HR, BP/CRT, SpO2, RR/Airway, Temp, PEWS/NEWTT2 - comma separated)</label>
+<input type="text" id="bP1Vitals" placeholder="72, CRT 4s, 64% Pre-ductal, Apnoeic, 36.1, NEWTT2: High">
+</div>
+<div>
+<label>Stage 1 Monitor Note</label>
+<input type="text" id="bP1Note" placeholder="No chest wall movement despite mask IPPV">
+</div>
+</div>
+<label>Stage 1 Debate Options (One per line)</label>
+<textarea id="bP1Options" rows="3" placeholder="Option A: Challenge Registrar immediately...&#10;Option B: Prepare second-line equipment..."></textarea>
+</div>
+
+<div class="form-section">
+<h3>3. Stage 2: The Curveball &amp; Rapid Timer</h3>
+<label>Evolving Complication Narrative</label>
+<textarea id="bP2Narrative" rows="3" placeholder="What happens next that forces a rapid reassessment?"></textarea>
+<div class="form-row">
+<div>
+<label>Stage 2 Prompt</label>
+<input type="text" id="bP2Prompt" placeholder="You have 45 seconds. What do you say and do right now?">
+</div>
+<div>
+<label>Stage 2 Rapid Timer (Seconds)</label>
+<input type="number" id="bP2Timer" value="45">
+</div>
+</div>
+<div class="form-row">
+<div>
+<label>Stage 2 Updated Vitals (comma separated)</label>
+<input type="text" id="bP2Vitals" placeholder="48, CRT >5s, 42%, Intubated?, 35.8, Bradycardia">
+</div>
+<div>
+<label>Stage 2 Monitor Note</label>
+<input type="text" id="bP2Note" placeholder="CO2 detector remains yellow (no colour change)">
+</div>
+</div>
+<label>Stage 2 Debate Options (One per line)</label>
+<textarea id="bP2Options" rows="3" placeholder="Option A: Use PACE...&#10;Option B: Start chest compressions..."></textarea>
+</div>
+
+<div class="form-section">
+<h3>4. Stage 3: Debrief, Trade-Offs &amp; Debate Questions</h3>
+<label>Stage 1 Tactical Trade-Offs Analysis</label>
+<textarea id="bExpertP1" rows="2" placeholder="Why teams split on Stage 1 and rationale..."></textarea>
+<label>Stage 2 Tactical Trade-Offs Analysis</label>
+<textarea id="bExpertP2" rows="2" placeholder="Why teams split on Stage 2 and rationale..."></textarea>
+<label>Non-Technical Skills &amp; Cognitive Pitfalls</label>
+<textarea id="bPitfalls" rows="2" placeholder="e.g., Task fixation, authority gradient..."></textarea>
+<label>Team Debate Questions</label>
+<textarea id="bQuestions" rows="2" placeholder="1. Why is it so hard to tell a senior colleague to pull out an ETT?"></textarea>
+</div>
+
+<div style="display:flex; justify-content:flex-end; gap:12px;">
+<button class="btn btn-secondary" onclick="closeBuilderModal()">Cancel</button>
+<button class="btn btn-green" onclick="saveScenarioFromBuilder()">Save Scenario &amp; Update Resource</button>
+</div>
+</div>
+</div>
+
+<script>
+const defaultScenarios = [
+{
+id: "neo-delivery-airway",
+title: "1. The Fixated Intubation at 28 Weeks",
+specialty: "Neonatal / Delivery Suite",
+ntsFocus: "Task Fixation, Authority Gradient & Graded Assertiveness (PACE)",
+role: "ST2 Paediatric Trainee OR Band 6 Neonatal Nurse",
+setting: "Delivery Suite Resuscitaire, 03:20 AM",
+resources: "You, 1 Senior Neonatal Registrar (ST6), 1 Midwife; Attending Consultant lives 20 mins away",
+phase1: {
+timerSeconds: 60,
+vitals: { hr: "68", bp: "CRT 4s", spo2: "58% (Pre)", rr: "Apnoeic", temp: "36.2", news: "NLS: Crit" },
+monitorNote: "28+2 wk preterm infant, 3 mins old. Floppy, pale, heart rate 68 bpm. No chest rise achieved yet.",
+narrative: "You are assisting your Senior Registrar (ST6) at an emergency crash Caesarean section for a 28-week preterm infant at 03:20 AM. During initial mask inflation breaths, there was no chest wall movement and the heart rate remained 68 bpm.\n\nInstead of systematically repeating two-person jaw thrust or inserting a supraglottic airway, the Registrar immediately grabbed the laryngoscope. They have now been attempting to intubate for 48 seconds. Secretions are obscuring the view, SpO2 is 58%, and the Registrar says: 'Don't take the blade out, I almost see the cords, just pass me a stylet.'",
+prompt: "60 SECONDS: You are watching the clock pass 50 seconds with a heart rate of 68 bpm. Which tactical path do you take right now?",
+options: [
+"Stance A (Direct Challenge): Refuse to pass the stylet, touch the Registrar's shoulder, and state firmly: 'We have passed 45 seconds and HR is 68—abort intubation now and let's do two-person mask ventilation.'",
+"Stance B (Support the Operator): Pass the stylet and apply cricoid/laryngeal manipulation immediately—if they secure the tube in the next 10 seconds, the airway is definitively solved.",
+"Stance C (Escalation First): Pull the emergency buzzer / ask the Midwife to put out a 2222 Neonatal Peri-Arrest call to summon the on-call Consultant and anaesthetic help while continuing to assist.",
+"Stance D (Prepare Alternative): Let them finish this attempt for 10 more seconds while you open a size 1 Supraglottic Airway (i-gel) and set up Neopuff for two-person jaw thrust."
+]
+},
+phase2: {
+timerSeconds: 45,
+vitals: { hr: "46", bp: "CRT >5s", spo2: "41% (Pre)", rr: "ETT In?", temp: "35.9", news: "HR <60!" },
+monitorNote: "Pedicap CO2 detector remains YELLOW (no colour change). Heart rate falling from 68 to 46 bpm.",
+narrative: "90 seconds later: The Registrar pushed a 2.5mm ETT in and announced: 'I'm in, start ventilating.' However, after 5 inflation breaths via the ETT, the disposable CO2 detector remains completely yellow, the heart rate has dropped to 46 bpm, and there is minimal chest movement.\n\nThe Registrar insists: 'I saw it go through the cords! The CO2 detector is only yellow because the pulmonary blood flow is low—start chest compressions now and keep ventilating through the tube!'",
+prompt: "45 SECONDS: If the tube is oesophageal, chest compressions without aeration will be fatal. If the tube is tracheal, pulling it out loses a difficult airway. What do you do?",
+options: [
+"Stance A (Hard Stop / CUS): Refuse chest compressions until the airway is verified: 'Stop! I am unsafe—HR dropped after intubation and there is no chest rise. We must extubate and mask-ventilate with two-person jaw thrust right now.'",
+"Stance B (Start Compressions + Re-check): Start 3:1 chest compressions immediately as instructed (in case low cardiac output is causing false-negative CO2), while asking the Registrar to re-inspect with the video laryngoscope.",
+"Stance C (Pragmatic Compromise): Increase PIP from 25 to 30 cmH2O and FiO2 to 100% for 15 seconds while auscultating both axillae and the epigastrium before pulling the tube.",
+"Stance D (Take Over Airway): Physically disconnect the Neopuff from the ETT, switch to a face mask/LMA over the mouth, and instruct the Midwife to call the Consultant immediately."
+]
+},
+debrief: {
+expertP1: "Why Teams Debate Stage 1:\n- Stance A prioritises NLS physiology: prolonged laryngoscopy (>30s) causes vagal bradycardia and hypoxia; aeration of the lungs via two-person mask/LMA is the primary resuscitation step.\n- Stance B/D reflect real-world hesitation: juniors fear disrupting a senior who claims they are '10 seconds away' from success.",
+expertP2: "Why Teams Debate Stage 2:\n- While severe bradycardia/low cardiac output CAN rarely cause a false-negative CO2 detector, NLS guidelines are explicit: if there is no chest rise AND no HR improvement AND negative CO2, you must assume oesophageal intubation until proven otherwise. Starting chest compressions without lung aeration is futile.",
+pitfalls: "- Loss of Situational Awareness (Time Distortion): Operators attempting intubation routinely underestimate elapsed time by 50-100%.\n- Confirmation Bias: The Registrar 'saw it go through' and rationalises away the yellow CO2 detector and falling HR.\n- Authority Gradient: How a junior nurse or trainee breaks through a senior's fixation using PACE (Probe, Alert, Challenge, Emergency).",
+questions: "1. Who in your group chose to pass the stylet in Stage 1, and what made it hard to stop the Registrar at 48 seconds?\n2. In Stage 2, when the Registrar blames 'low cardiac output' for the yellow CO2 detector, what exact words get the tube removed without causing a team breakdown?"
+}
+},
+{
+id: "paed-ed-parent-conflict",
+title: "2. The Exhausting Toddlers: Stridor vs. Sepsis",
+specialty: "Paediatric Emergency",
+ntsFocus: "Competing High-Acuity Priorities, Parental Agitation & Bandwidth Allocation",
+role: "Paediatric Night Registrar (Only Senior Paediatrician on Floor)",
+setting: "Children's ED & Assessment Unit, 01:40 AM",
+resources: "You (ST5), 1 FY2 Doctor (2 months into job), 2 Paediatric ED Nurses; Anaesthetist in Maternity theatre",
+phase1: {
+timerSeconds: 60,
+vitals: { hr: "178 / 165", bp: "CRT 4s", spo2: "90% / 94%", rr: "62 / 48", temp: "39.4", news: "PEWS: 9" },
+monitorNote: "TWO simultaneous red triggers: Cubicle 1 (14m septic shock) vs Cubicle 4 (2y severe stridor + agitated father).",
+narrative: "You are the sole Paediatric Registrar on night shift. Within 2 minutes, two children trigger critical alerts:\n\n- Cubicle 1: Leo (14 months) with meningococcal purpura, lethargic, HR 178, CRT 4 seconds. Your inexperienced FY2 has just failed two peripheral IV cannulation attempts and is asking you to come site an IO needle immediately.\n- Cubicle 4: Maya (2 years) arrived 5 minutes ago with severe biphasic stridor, tracheal tug, SpO2 90% on air, and drooling. Her father is shouting aggressively at the nurse: 'Stop trying to put masks near her, you're making her choke! Do something now or I'm taking her out!'",
+prompt: "60 SECONDS: You have one pair of hands, a terrified FY2 in Cubicle 1, and a potentially obstructed airway with an aggressive parent in Cubicle 4. How do you allocate yourself?",
+options: [
+"Stance A (Hands-on Airway First): Go straight to Cubicle 4 to de-escalate the father and manage the threatened airway (keep child on parent's lap, nebulised adrenaline/steroids); tell the FY2 to give IM Ceftriaxone to Leo now and wait 3 minutes for you to site the IO.",
+"Stance B (Hands-on IO First): Go to Cubicle 1, drill the IO in 90 seconds, and start the fluid bolus/antibiotics (a definite, quick fix); instruct the senior ED nurse to sit Maya on dad's lap with blow-by oxygen/adrenaline and call 2222 for Anaesthetics.",
+"Stance C (Hands-Off Commander): Stand between both cubicles, put out a 2222 Paediatric Airway/Arrest call immediately to pull the Duty Anaesthetist/ICU Outreach, talk the FY2 through drilling the IO, and send your most experienced nurse to calm Maya's father.",
+"Stance D (Move Both to Resus): Order both children moved into adjacent Resus bays immediately so you can oversee both side-by-side."
+]
+},
+phase2: {
+timerSeconds: 45,
+vitals: { hr: "110 (Falling)", bp: "Pale/Grey", spo2: "78% (OA)", rr: "Silent Chest", temp: "38.8", news: "PERI-ARREST" },
+monitorNote: "Cubicle 4 (Maya, 2y): Stridor has suddenly become QUIET. Child now floppy, SpO2 78%, HR dropping.",
+narrative: "3 minutes later: In Cubicle 1, Leo has received IM Ceftriaxone and the IO is in place running a 10 mL/kg fluid bolus. However, in Cubicle 4, Maya's loud stridor suddenly goes quiet. She slumps back against her father's chest, pale, barely making respiratory effort, with SpO2 dropping to 78% and HR slowing to 110 bpm.\n\nYou put out a 2222 Paediatric Peri-Arrest call, but the switchboard replies that the Duty Anaesthetist is currently intubating an eclamptic mother in Maternity (5 minutes away). Maya's father is panicking, clutching Maya tightly to his chest, refusing to lay her on the Resus trolley.",
+prompt: "45 SECONDS: Complete upper airway obstruction is imminent, the Anaesthetist is delayed, and the father is physically holding the floppy child. What is your immediate move?",
+options: [
+"Stance A (Empathetic but Firm Physical Takeover): Look the father in the eye: 'Maya has stopped breathing—I need to lay her flat right now to save her life,' physically guide her onto the Resus bed, assign a nurse solely to hold dad's arm, and start 2-person BVM with PEEP.",
+"Stance B (Bag-Mask in Parent's Arms): Begin gentle bag-valve-mask ventilation while Maya is still held upright in her father's arms to avoid wasting 30 seconds wrestling with a panicking parent.",
+"Stance C (Escort Parent Out): Ask hospital security / nurses to remove the father from the bay immediately so the team has unobstructed 360-degree access to prepare for emergency intubation.",
+"Stance D (Immediate Intubation by Paed Reg): Take Maya to the bed and attempt immediate endotracheal intubation yourself before the airway swells shut completely, rather than waiting 5 minutes for Anaesthetics."
+]
+},
+debrief: {
+expertP1: "Why Teams Debate Stage 1:\n- Stance A recognises that an agitated toddler with drooling/stridor can precipitate into complete airway obstruction if distressed, and that IM Ceftriaxone buys a few minutes in meningococcal sepsis before IO access.\n- Stance B argues that an IO takes a senior <60 seconds, freeing your mental bandwidth completely, whereas parental de-escalation can trap you in Cubicle 4 while the septic child decompensates.",
+expertP2: "Why Teams Debate Stage 2:\n- Once a stridulous child becomes floppy/silent (hyp hypoxic), the 'don't upset the child' rule is over—effective two-person BVM with continuous PEEP on a flat surface is mandatory.\n- Stance A vs Stance D sparks intense debate: in epiglottiitis/severe croup, slow high-pressure two-person BVM with PEEP often splints the airway open safely until ENT/Anaesthetics arrive, whereas an unpractised solo intubation attempt in a swollen airway can cause complete 'can't intubate, can't ventilate' arrest.",
+pitfalls: "- Bandwidth Capture: Getting sucked into a technical task (drilling an IO) or an emotional conflict (arguing with a parent) and losing oversight of the second critically ill child.\n- Transition Blindness: Failing to switch mental models from 'minimal handling of stridor' to 'active airway resuscitation' the moment the child becomes exhausted/hypoxic.",
+questions: "1. In Stage 1, did you go to the septic infant (Cubicle 1) or the stridulous toddler (Cubicle 4) first, and how did you safety-net the child you didn't see first?\n2. In Stage 2, would you attempt intubation yourself or hold the airway with two-person BVM + PEEP for 5 minutes until the Anaesthetist arrives? Why?"
+}
+},
+{
+id: "paed-ward-watcher",
+title: "3. The 'Settled' Bronchiolitic & Parental Gut Instinct",
+specialty: "Paediatric Inpatient Ward",
+ntsFocus: "Diagnostic Anchoring, Parental Escalation (Martha's Rule) & Night Staffing",
+role: "Paediatric Ward Sister / Nurse-in-Charge OR Night SHO",
+setting: "24-Bed General Paediatric Ward, 04:10 AM",
+resources: "3 Ward Nurses (1 off sick), 1 Paed SHO; Registrar currently in NICU with a sick neonate",
+phase1: {
+timerSeconds: 60,
+vitals: { hr: "168", bp: "CRT 3s", spo2: "95% (2L LF)", rr: "58 -> 34", temp: "37.6", news: "PEWS: 4" },
+monitorNote: "4-month-old ex-32wk preterm with RSV bronchiolitis. RR was 62 at midnight, now 34/min. Mother tearful.",
+narrative: "Noah (4 months old, ex-32-week preterm) was admitted 18 hours ago with RSV bronchiolitis. At midnight, his RR was 62/min with moderate subcostal recession, and the Registrar's review noted: 'Typical day 4 bronchiolitis peak—maintain 2L low-flow nasal cannula O2 and NG feeds.'\n\nAt 04:10 AM, his routine PEWS score has actually dropped from 6 to 4 because his respiratory rate is now 34/min and his SpO2 is 95% on 2L O2. However, his mother stops you in the corridor crying: 'Something is wrong. He's not fighting me anymore, his eyes look glassy, and he hasn't wet his nappy since 8 PM. The bedside nurse told me his score is better and he's just finally sleeping.'",
+prompt: "60 SECONDS: The numbers on the chart look 'better' (PEWS 4, SpO2 95%), the ward is short-staffed, and the Registrar is tied up in NICU. How do you respond?",
+options: [
+"Stance A (Treat as Exhaustion / Pre-Apnoea): Assume the drop in RR from 62 to 34 in an ex-preterm infant is respiratory exhaustion, not improvement—move Noah to the High Dependency bay immediately, stop NG feeds, and prepare High-Flow / CPAP.",
+"Stance B (Bedside Review + Blood Gas): Go to the cot side with the mother, stimulate Noah to assess tone/work of breathing, check a capillary blood gas (for CO2 retention) and blood glucose before escalating to the busy NICU Registrar.",
+"Stance C (Reassure & 30-Min Recheck): Explain kindly to the mother that supplementary oxygen masks hypoxialess well than expected, place Noah on continuous pulse oximetry/apnoea alarm, and re-evaluate in 30 minutes.",
+"Stance D (Activate Rapid Response / PICU Outreach): Trigger the hospital's parental concern / rapid response pathway immediately to bring critical care outreach to the ward while the Paed Reg is stuck in NICU."
+]
+},
+phase2: {
+timerSeconds: 45,
+vitals: { hr: "84 (Brady)", bp: "Mottled", spo2: "81% (2L)", rr: "Apnoeic", temp: "36.5", news: "APNOEA" },
+monitorNote: "Capillary Blood Gas: pH 7.14, pCO2 10.8 kPa, Base Excess -4, Glucose 2.9 mmol/L. Profound apnoea.",
+narrative: "8 minutes later: As you perform a heel-prick capillary blood gas, Noah barely flinches. The result prints: pH 7.14, pCO2 10.8 kPa (severe hypercapnic respiratory failure). Before you can move him, he has a prolonged central apnoea—his SpO2 plummets to 81% and HR drops to 84 bpm.\n\nYou stimulate him and start bag-mask ventilation, which brings his HR up to 130 bpm and SpO2 to 93%, but the moment you stop bagging, he becomes apnoeic again. You bleep the Paediatric Registrar in NICU, who answers curtly: 'I'm mid-umbilical line on a 24-weeker—just put him on High-Flow (HFNC) at 2 L/kg/min and I'll be up in 25 minutes.'",
+prompt: "45 SECONDS: High-Flow Nasal Cannula (HFNC) is contraindicated in recurrent apnoea/pCO2 10.8, and the Registrar has underestimated the severity. What do you do?",
+options: [
+"Stance A (Challenge & Call 2222): Tell the Registrar directly: 'No—he is apnoeic with a pCO2 of 10.8 and requires active bagging; HFNC is unsafe. I am putting out a 2222 Paediatric Crash Call for the Anaesthetist and On-Call Consultant now.'",
+"Stance B (Trial CPAP / BiPAP): Set up ward CPAP/NPA instead of High-Flow, give a 2 mL/kg 10% Dextrose bolus for the borderline glucose (2.9), and ask the SHO to keep stimulating him until the Registrar finishes in NICU.",
+"Stance C (Bypass to Consultant): Keep bagging Noah via T-piece/BVM with the SHO and instruct the ward clerk to phone the On-Call Paediatric Consultant at home and Duty Anaesthetist directly.",
+"Stance D (Transfer to Resus/NICU): Wheel Noah's cot with portable oxygen and BVM directly down the corridor to NICU/ED Resus where senior airway staff are already present."
+]
+},
+debrief: {
+expertP1: "Why Teams Debate Stage 1:\n- A falling respiratory rate in an exhausted ex-preterm bronchiolitic is a classic trap: PEWS scores can paradoxically improve as the infant stops tachypnoeic compensation and enters CO2 narcosis.\n- Supplementary oxygen (2L LF) maintains SpO2 at 95% despite severe hypoventilation, masking impending apnoea.",
+expertP2: "Why Teams Debate Stage 2:\n- High-Flow Nasal Cannula (HFNC) requires spontaneous respiratory drive; placing an apnoeic infant with a pCO2 of 10.8 kPa on HFNC without senior airway support risks hypoxic cardiac arrest.\n- Stance A vs Stance D: Calling a 2222 Paediatric Emergency brings the Anaesthetist/Resus team to the bedside immediately, whereas wheeling an unintubated apnoeic infant through hospital corridors carries high risk.",
+pitfalls: "- False Reassurance from PEWS & SpO2: Relying on normal oxygen saturations (on O2) and a lower respiratory rate while discounting parental gut instinct ('he's not fighting anymore').\n- Remote Triage Blindness: The Registrar in NICU hears 'bronchiolitis needing respiratory support' and defaults to 'put on High-Flow', missing that the infant has crossed into apnoeic respiratory failure.",
+questions: "1. How often have you seen a 'normalising' respiratory rate or normal SpO2 (on oxygen) falsely reassure staff in paediatric respiratory distress?\n2. In Stage 2, how do you phrase your pushback when a stressed Registrar tells you to 'just put him on High-Flow'?"
+}
+},
+{
+id: "neo-nicu-twin-crisis",
+title: "4. The NICU Night Shift: Unplanned Extubation vs. NEC",
+specialty: "Neonatal / NICU",
+ntsFocus: "Situational Awareness, Role Allocation & Safe Delegation Under Load",
+role: "NICU Night Shift Nurse-in-Charge (Band 7) OR Senior Neonatal Fellow",
+setting: "20-Cot Level 3 NICU, 02:15 AM",
+resources: "You, 1 Junior SHO (first month in NICU), 4 NICU Nurses; Consultant at home",
+phase1: {
+timerSeconds: 60,
+vitals: { hr: "52 (Cot 1)", bp: "Mean BP 21", spo2: "48% / 88%", rr: "Vent Alarm", temp: "36.6", news: "2x ALARMS" },
+monitorNote: "Cot 1 (24wk, 650g): High-frequency ventilator disconnecting/bradycardia 52. Cot 8 (29wk): Bilious aspirates + hypotension.",
+narrative: "It is 02:15 AM in the Level 3 NICU. You are reviewing Cot 8 (BabyMia, 29 weeks, day 10), who has just developed a tense, discoloured abdomen, large bilious aspirates, a lactate of 6.2 mmol/L, and a mean BP of 21 mmHg (fulminant NEC).\n\nSuddenly, the red crisis alarm sounds in Room 1: Cot 1 (Baby Leo, 24 weeks, 650g, day 3 on High-Frequency Oscillatory Ventilation) has thrashed, displaced his ETT, and is now severely bradycardic (HR 52 bpm) and desaturating (SpO2 48%). Your only medical colleague on the unit is an SHO in their third week of neonatology.",
+prompt: "60 SECONDS: Baby Leo (650g) needs immediate airway rescue in Room 1, while Baby Mia is in hypotensive septic shock from NEC in Room 2. How do you split the team?",
+options: [
+"Stance A (Senior to Airway, SHO to NEC): Run immediately to Cot 1 (650g extubation) to remove the displaced tube and perform Neopuff mask ventilation yourself; instruct the junior SHO to stay at Cot 8 and prescribe/draw up a 10 mL/kg saline bolus and triple antibiotics for Mia.",
+"Stance B (Empower Senior NICU Nurse on Airway): Send the experienced Band 6 bedside nurse + SHO to Cot 1 to pull the displaced ETT into the pharynx/remove it and start two-person Neopuff ventilation while you spend 45 seconds stabilising Mia's fluid/inotropes and calling the Consultant.",
+"Stance C (All Hands to Cot 1 Arrest): Pull the crash bell in Room 1 and bring both the SHO and yourself to Cot 1—an acute bradycardia/hypoxia in a 650g infant will arrest in 60 seconds, whereas NEC resuscitation can wait 10 minutes.",
+"Stance D (Immediate Re-intubation): Rush to Cot 1 and immediately prepare to re-intubate the 650g infant on the oscillator before the lungs derecruit."
+]
+},
+phase2: {
+timerSeconds: 45,
+vitals: { hr: "145 (Cot 1)", bp: "Cot 8: BP 17", spo2: "92% (Mask)", rr: "Bagging", temp: "36.4", news: "DRUG ERROR?" },
+monitorNote: "Cot 1 stabilised on mask IPPV. Cot 8 (NEC): Profound hypotension (Mean BP 17) + 10x Morphine dose question.",
+narrative: "4 minutes later: At Cot 1, the displaced ETT was removed and Baby Leo (650g) is now pink with a HR of 145 bpm on gentle mask Neopuff held by a skilled NICU nurse, awaiting re-intubation.\n\nMeanwhile, the stressed SHO runs into Room 1 pale-faced: 'I gave the fluid bolus to Baby Mia in Cot 8, and I just gave her IV Morphine for pain before intubation—but I just looked at the vial and I think I gave 100 micrograms/kg instead of 10 micrograms/kg! Her mean BP has just dropped to 17 mmHg and she is apnoeic!'",
+prompt: "45 SECONDS: You now have an unintubated 650g micro-preemie stable on a mask in Room 1, a 29-weeker in septic shock + 10x opioid overdose in Room 2, and a traumatised SHO. What is your tactical sequence?",
+options: [
+"Stance A (Stabilise Cot 8 Airway/Naloxone First): Leave the competent Band 6 nurse ventilating Cot 1 on the Neopuff (stable HR 145); go immediately to Cot 8 to start mask ventilation, administer Naloxone + fluid/inotropes for Mia, and call the Consultant + Duty Anaesthetist.",
+"Stance B (Finish Re-intubating Cot 1 First): Quickly intubate the 650g baby in Cot 1 first (so you don't leave an unintubated 24-weeker on a mask), while sending a nurse with Naloxone and a Neopuff to Cot 8.",
+"Stance C (Relieve the SHO Completely): Tell the SHO to sit down in the office immediately as they are unsafe to practice after a drug error, and manage Cot 8 with the nursing team.",
+"Stance D (Keep SHO Under Direct Supervision): Bring the SHO with you to Cot 8, assign them a simple, closed-loop task (e.g., holding the Neopuff mask on Mia with a nurse) while you manage Naloxone/inotropes and call a 2222 Neonatal Emergency."
+]
+},
+debrief: {
+expertP1: "Why Teams Debate Stage 1:\n- In an unplanned extubation of a 650g infant, the immediate life-saving step is NOT re-intubation—it is removing the displaced tube and establishing gentle Neopuff mask ventilation.\n- Leaving an inexperienced 3-week SHO unsupervised to calculate/draw up neonatal drugs during a simultaneous crisis sets up a classic latent system error.",
+expertP2: "Why Teams Debate Stage 2:\n- Stance A vs B: A 650g infant with HR 145 and SpO2 92% on a Neopuff held by a senior NICU nurse is temporarily safe; an apnoeic infant with a mean BP of 17 mmHg in Cot 8 will arrest unless ventilated and resuscitated immediately.\n- Managing the 'Second Victim' (Stance C vs D): Banishing the SHO mid-crisis loses a pair of hands and compounds psychological trauma, whereas assigning them a supervised, low-cognitive-load physical task keeps the patient safe while preserving team function.",
+pitfalls: "- Premature Task Lock-in: Starting a complex re-intubation on a stable mask-ventilated baby while another baby on the unit is actively arresting.\n- Unsupervised High-Risk Prescribing: 10-fold calculation errors in neonates happen most frequently when juniors are left alone during a unit emergency.",
+questions: "1. In Stage 1, how did you supervise or safety-net the junior SHO while Cot 1 was alarming?\n2. In Stage 2, would you leave the 650g baby on mask Neopuff to go to Cot 8, or intubate Cot 1 first? How do you handle the SHO in that moment?"
+}
+}
+];
+
+let scenarios = [];
+let currentScenario = null;
+let currentPhase = 1;
+let currentFilter = "ALL";
+let timerInterval = null;
+let remainingSeconds = 60;
+let isTimerRunning = false;
+
+function safeGetStorage(key) {
+try {
+return localStorage.getItem(key);
+} catch (e) {
+return null;
+}
+}
+
+function safeSetStorage(key, val) {
+try {
+localStorage.setItem(key, val);
+} catch (e) {}
+}
+
+function initApp() {
+const saved = safeGetStorage("paed_neo_tdg_scenarios_v2");
+if (saved) {
+try {
+scenarios = JSON.parse(saved);
+} catch (e) {
+scenarios = defaultScenarios.slice();
+}
+} else {
+scenarios = defaultScenarios.slice();
+}
+renderHomeHub();
+showHomeHub();
+}
+
+function setSpecialtyFilter(filterVal) {
+currentFilter = filterVal;
+document.getElementById("filter-all").classList.toggle("active", filterVal === "ALL");
+document.getElementById("filter-neo").classList.toggle("active", filterVal === "Neonatal");
+document.getElementById("filter-paed").classList.toggle("active", filterVal === "Paediatric");
+renderHomeHub();
+}
+
+function renderHomeHub() {
+const grid = document.getElementById("scenarioGrid");
+grid.innerHTML = "";
+
+const filtered = scenarios.filter(s => {
+if (currentFilter === "ALL") return true;
+return (s.specialty || "").toLowerCase().includes(currentFilter.toLowerCase());
+});
+
+filtered.forEach(s => {
+const card = document.createElement("div");
+card.className = "scenario-card";
+
+const isNeo = (s.specialty || "").toLowerCase().includes("neo");
+const badgeClass = isNeo ? "tag-purple" : "tag-blue";
+const p1Sec = (s.phase1 && s.phase1.timerSeconds) ? s.phase1.timerSeconds : 60;
+const p2Sec = (s.phase2 && s.phase2.timerSeconds) ? s.phase2.timerSeconds : 45;
+
+card.innerHTML = `
+<div class="sc-top" onclick="openScenarioFromHub('${https://www.google.com/url?q=http://s.id&source=gmail&ust=1794568032750000&sa=E}')">
+<div class="sc-badges">
+<span class="tag ${badgeClass}">${s.specialty}</span>
+<span class="tag tag-amber">Rapid: ${p1Sec}s / ${p2Sec}s</span>
+</div>
+<div class="sc-title">${s.title}</div>
+<div class="sc-summary">${s.phase1.narrative}</div>
+</div>
+<div>
+<div class="sc-nts-box" onclick="openScenarioFromHub('${https://www.google.com/url?q=http://s.id&source=gmail&ust=1794568032751000&sa=E}')">
+<strong>Non-Technical &amp; Debate Focus</strong>
+<span>${s.ntsFocus || "Rapid Prioritisation, Escalation & Team Communication"}</span>
+</div>
+<div class="sc-footer">
+<span>Role: ${s.role.split(" OR ")[0]}</span>
+<div class="card-action-btns">
+<button class="btn btn-secondary" onclick="event.stopPropagation(); openBuilderModalForEdit('${https://www.google.com/url?q=http://s.id&source=gmail&ust=1794568032751000&sa=E}')" style="padding:4px 10px; font-size:0.75rem;">Edit</button>
+<button class="btn" onclick="event.stopPropagation(); openScenarioFromHub('${https://www.google.com/url?q=http://s.id&source=gmail&ust=1794568032751000&sa=E}')" style="padding:4px 10px; font-size:0.75rem;">Play &rarr;</button>
+</div>
+</div>
+</div>
+`;
+grid.appendChild(card);
+});
+}
+
+function showHomeHub() {
+pauseTimer();
+document.getElementById("homeHubView").classList.remove("hidden");
+document.getElementById("scenarioPlayerView").classList.add("hidden");
+window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function openScenarioFromHub(id) {
+const found = scenarios.find(s => https://www.google.com/url?q=http://s.id&source=gmail&ust=1794568032751000&sa=E === id) || scenarios[0];
+currentScenario = found;
+
+document.getElementById("homeHubView").classList.add("hidden");
+document.getElementById("scenarioPlayerView").classList.remove("hidden");
+
+document.getElementById("p1UserNotes").value = "";
+document.getElementById("p2UserNotes").value = "";
+
+document.getElementById("activeNtsFocusBanner").textContent = "NTS Focus: " + (found.ntsFocus || "Rapid Decision Making");
+document.getElementById("p1Title").textContent = found.title;
+document.getElementById("p1Specialty").textContent = found.specialty;
+document.getElementById("p1Role").textContent = found.role;
+document.getElementById("p1Setting").textContent = found.setting;
+document.getElementById("p1Resources").textContent = found.resources;
+document.getElementById("p1Narrative").textContent = found.phase1.narrative;
+document.getElementById("p1Prompt").textContent = found.phase1.prompt;
+renderCheckboxes("p1Options", found.phase1.options, "p1Opt");
+
+document.getElementById("p2Title").textContent = found.title + " - Stage 2";
+document.getElementById("p2Narrative").textContent = found.phase2.narrative;
+document.getElementById("p2Prompt").textContent = found.phase2.prompt;
+renderCheckboxes("p2Options", found.phase2.options, "p2Opt");
+
+document.getElementById("debriefExpertP1").textContent = found.debrief.expertP1;
+document.getElementById("debriefExpertP2").textContent = found.debrief.expertP2;
+document.getElementById("debriefPitfalls").textContent = found.debrief.pitfalls;
+document.getElementById("debriefQuestions").textContent = found.debrief.questions;
+
+goToPhase(1);
+window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function renderCheckboxes(containerId, optionsArr, prefix) {
+const container = document.getElementById(containerId);
+container.innerHTML = "";
+(optionsArr || []).forEach(optText => {
+const lbl = document.createElement("label");
+lbl.className = "option-item";
+const input = document.createElement("input");
+input.type = "checkbox";
+https://www.google.com/url?q=http://input.name&source=gmail&ust=1794568032751000&sa=E = prefix;
+input.value = optText;
+const span = document.createElement("span");
+span.textContent = optText;
+lbl.appendChild(input);
+lbl.appendChild(span);
+container.appendChild(lbl);
+});
+}
+
+function getSelectedAndNotes(prefix, textareaId) {
+const checked = Array.from(document.querySelectorAll('input[name="' + prefix + '"]:checked')).map(el => "- " + el.value);
+const notes = document.getElementById(textareaId).value.trim();
+let combined = "";
+if (notes) {
+combined += "Free Text Action Plan & Justification:\n" + notes + "\n\n";
+}
+if (checked.length > 0) {
+combined += "Selected Stance Options:\n" + checked.join("\n");
+}
+return combined.trim() || "(No response logged)";
+}
+
+function goToPhase(phaseNum) {
+pauseTimer();
+currentPhase = phaseNum;
+
+[1, 2, 3].forEach(n => {
+const tab = document.getElementById("stepTab" + n);
+tab.classList.remove("active", "completed");
+if (n < phaseNum) tab.classList.add("completed");
+if (n === phaseNum) tab.classList.add("active");
+});
+
+document.getElementById("phase1View").classList.toggle("hidden", phaseNum !== 1);
+document.getElementById("phase2View").classList.toggle("hidden", phaseNum !== 2);
+document.getElementById("phase3View").classList.toggle("hidden", phaseNum !== 3);
+
+if (phaseNum === 1) {
+updateMonitor(currentScenario.phase1.vitals, currentScenario.phase1.monitorNote, "STAGE 1 BASELINE");
+setupTimer(currentScenario.phase1.timerSeconds || 60, "Stage 1 Rapid Timer (" + (currentScenario.phase1.timerSeconds || 60) + "s)");
+} else if (phaseNum === 2) {
+document.getElementById("p1SummaryInP2").textContent = getSelectedAndNotes("p1Opt", "p1UserNotes");
+updateMonitor(currentScenario.phase2.vitals, currentScenario.phase2.monitorNote, "STAGE 2 CURVEBALL");
+setupTimer(currentScenario.phase2.timerSeconds || 45, "Stage 2 Rapid Timer (" + (currentScenario.phase2.timerSeconds || 45) + "s)");
+} else if (phaseNum === 3) {
+document.getElementById("debriefUserP1").textContent = getSelectedAndNotes("p1Opt", "p1UserNotes");
+document.getElementById("debriefUserP2").textContent = getSelectedAndNotes("p2Opt", "p2UserNotes");
+document.getElementById("timerLabel").textContent = "Debate & Debrief";
+document.getElementById("timerDisplay").textContent = "DEBRIEF";
+document.getElementById("timerDisplay").className = "timer-display";
+document.getElementById("timerStatus").textContent = "Compare team stances & trade-offs";
+}
+}
+
+function lockPhase1AndAdvance() {
+goToPhase(2);
+window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function lockPhase2AndDebrief() {
+goToPhase(3);
+window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function updateMonitor(vitals, note, phaseLabel) {
+document.getElementById("monitorPhaseTag").textContent = phaseLabel;
+document.getElementById("vHR").textContent = https://www.google.com/url?q=http://vitals.hr&source=gmail&ust=1794568032751000&sa=E || "--";
+document.getElementById("vBP").textContent = vitals.bp || "--";
+document.getElementById("vSpO2").textContent = vitals.spo2 || "--";
+document.getElementById("vRR").textContent = vitals.rr || "--";
+document.getElementById("vTemp").textContent = vitals.temp || "--";
+document.getElementById("vNEWS").textContent = vitals.news || "--";
+document.getElementById("vNote").textContent = note || "-";
+}
+
+function setupTimer(seconds, label) {
+pauseTimer();
+remainingSeconds = seconds;
+document.getElementById("timerLabel").textContent = label;
+renderTimerDisplay();
+document.getElementById("timerStatus").textContent = "Rapid clock ready - tap Start Clock";
+}
+
+function renderTimerDisplay() {
+const mins = Math.floor(remainingSeconds / 60);
+const secs = remainingSeconds % 60;
+const timeStr = String(mins).padStart(2, "0") + ":" + String(secs).padStart(2, "0");
+
+const activeDispId = currentPhase === 1 ? "timerDisplayP1" : "timerDisplayP2";
+const disp = document.getElementById(activeDispId);
+if (disp) {
+disp.textContent = timeStr;
+disp.className = "timer-display";
+if (remainingSeconds <= 10) disp.classList.add("danger");
+else if (remainingSeconds <= 25) disp.classList.add("warning");
+}
+}
+
+function toggleTimer() {
+if (currentPhase === 3) return;
+if (isTimerRunning) {
+pauseTimer();
+} else {
+isTimerRunning = true;
+const statusId = currentPhase === 1 ? "timerStatusP1" : "timerStatusP2";
+const startBtnId = currentPhase === 1 ? "timerStartBtnP1" : "timerStartBtnP2";
+const btn = document.getElementById(startBtnId);
+if (btn) btn.textContent = "Pause Clock";
+const st = document.getElementById(statusId);
+if (st) st.textContent = "Rapid decision clock running...";
+
+timerInterval = setInterval(() => {
+if (remainingSeconds > 0) {
+remainingSeconds--;
+renderTimerDisplay();
+} else {
+pauseTimer();
+if (st) st.textContent = "TIME UP! Commit to your stance now!";
+}
+}, 1000);
+}
+}
+
+function pauseTimer() {
+isTimerRunning = false;
+if (timerInterval) clearInterval(timerInterval);
+const btnP1 = document.getElementById("timerStartBtnP1");
+if (btnP1) btnP1.textContent = "Start Clock";
+const btnP2 = document.getElementById("timerStartBtnP2");
+if (btnP2) btnP2.textContent = "Start Clock";
+const st1 = document.getElementById("timerStatusP1");
+if (st1 && st1.textContent.includes("running")) st1.textContent = "Rapid clock paused";
+const st2 = document.getElementById("timerStatusP2");
+if (st2 && st2.textContent.includes("running")) st2.textContent = "Rapid clock paused";
+}
+
+function resetTimer() {
+if (currentPhase === 1) {
+setupTimer(currentScenario.phase1.timerSeconds || 60, "Stage 1 Rapid Timer");
+} else if (currentPhase === 2) {
+setupTimer(currentScenario.phase2.timerSeconds || 45, "Stage 2 Rapid Timer");
+}
+}
+
+function add15Sec() {
+if (currentPhase === 3) return;
+remainingSeconds += 15;
+renderTimerDisplay();
+}
+
+function resetCurrentScenario() {
+openScenarioFromHub(currentScenario.id);
+}
+
+/* Builder / Edit Functions */
+function openBuilderModalForNew() {
+document.getElementById("builderModalTitle").textContent = "Create New Paediatric / Neonatal TDG";
+document.getElementById("bEditId").value = "";
+document.getElementById("bTitle").value = "";
+document.getElementById("bSpecialty").value = "";
+document.getElementById("bNtsFocus").value = "";
+document.getElementById("bRole").value = "";
+document.getElementById("bSetting").value = "";
+document.getElementById("bResources").value = "";
+document.getElementById("bP1Narrative").value = "";
+document.getElementById("bP1Prompt").value = "";
+document.getElementById("bP1Timer").value = 60;
+document.getElementById("bP1Vitals").value = "";
+document.getElementById("bP1Note").value = "";
+document.getElementById("bP1Options").value = "";
+document.getElementById("bP2Narrative").value = "";
+document.getElementById("bP2Prompt").value = "";
+document.getElementById("bP2Timer").value = 45;
+document.getElementById("bP2Vitals").value = "";
+document.getElementById("bP2Note").value = "";
+document.getElementById("bP2Options").value = "";
+document.getElementById("bExpertP1").value = "";
+document.getElementById("bExpertP2").value = "";
+document.getElementById("bPitfalls").value = "";
+document.getElementById("bQuestions").value = "";
+document.getElementById("builderModal").classList.add("open");
+}
+
+function openBuilderModalForEdit(id) {
+const s = scenarios.find(item => https://www.google.com/url?q=http://item.id&source=gmail&ust=1794568032751000&sa=E === id);
+if (!s) return;
+
+document.getElementById("builderModalTitle").textContent = "Edit Scenario: " + s.title;
+document.getElementById("bEditId").value = https://www.google.com/url?q=http://s.id&source=gmail&ust=1794568032751000&sa=E;
+document.getElementById("bTitle").value = s.title || "";
+document.getElementById("bSpecialty").value = s.specialty || "";
+document.getElementById("bNtsFocus").value = s.ntsFocus || "";
+document.getElementById("bRole").value = s.role || "";
+document.getElementById("bSetting").value = s.setting || "";
+document.getElementById("bResources").value = s.resources || "";
+
+document.getElementById("bP1Narrative").value = s.phase1.narrative || "";
+document.getElementById("bP1Prompt").value = s.phase1.prompt || "";
+document.getElementById("bP1Timer").value = s.phase1.timerSeconds || 60;
+const v1 = s.phase1.vitals || {};
+document.getElementById("bP1Vitals").value = [https://www.google.com/url?q=http://v1.hr&source=gmail&ust=1794568032751000&sa=E, v1.bp, v1.spo2, v1.rr, v1.temp, v1.news].filter(Boolean).join(", ");
+document.getElementById("bP1Note").value = s.phase1.monitorNote || "";
+document.getElementById("bP1Options").value = (s.phase1.options || []).join("\n");
+
+document.getElementById("bP2Narrative").value = s.phase2.narrative || "";
+document.getElementById("bP2Prompt").value = s.phase2.prompt || "";
+document.getElementById("bP2Timer").value = s.phase2.timerSeconds || 45;
+const v2 = s.phase2.vitals || {};
+document.getElementById("bP2Vitals").value = [https://www.google.com/url?q=http://v2.hr&source=gmail&ust=1794568032752000&sa=E, v2.bp, v2.spo2, v2.rr, v2.temp, v2.news].filter(Boolean).join(", ");
+document.getElementById("bP2Note").value = s.phase2.monitorNote || "";
+document.getElementById("bP2Options").value = (s.phase2.options || []).join("\n");
+
+document.getElementById("bExpertP1").value = s.debrief.expertP1 || "";
+document.getElementById("bExpertP2").value = s.debrief.expertP2 || "";
+document.getElementById("bPitfalls").value = s.debrief.pitfalls || "";
+document.getElementById("bQuestions").value = s.debrief.questions || "";
+
+document.getElementById("builderModal").classList.add("open");
+}
+
+function closeBuilderModal() {
+document.getElementById("builderModal").classList.remove("open");
+}
+
+function parseVitalsCSV(str) {
+const parts = (str || "").split(",").map(s => s.trim());
+return {
+hr: parts[0] || "--",
+bp: parts[1] || "--",
+spo2: parts[2] || "--",
+rr: parts[3] || "--",
+temp: parts[4] || "--",
+news: parts[5] || "--"
+};
+}
+
+function saveScenarioFromBuilder() {
+const editId = document.getElementById("bEditId").value.trim();
+const title = document.getElementById("bTitle").value.trim() || "Custom Paed/Neo TDG";
+const specialty = document.getElementById("bSpecialty").value.trim() || "Paediatric / Neonatal";
+const ntsFocus = document.getElementById("bNtsFocus").value.trim() || "Rapid Prioritisation & Escalation";
+const role = document.getElementById("bRole").value.trim() || "Clinician on Shift";
+const setting = document.getElementById("bSetting").value.trim() || "Paediatric / Neonatal Unit";
+const resources = document.getElementById("bResources").value.trim() || "Standard night staffing";
+
+const p1Narrative = document.getElementById("bP1Narrative").value.trim();
+const p1Prompt = document.getElementById("bP1Prompt").value.trim();
+const p1Timer = parseInt(document.getElementById("bP1Timer").value, 10) || 60;
+const p1Vitals = parseVitalsCSV(document.getElementById("bP1Vitals").value);
+const p1Note = document.getElementById("bP1Note").value.trim();
+const p1Options = document.getElementById("bP1Options").value.split("\n").map(s => s.trim()).filter(Boolean);
+
+const p2Narrative = document.getElementById("bP2Narrative").value.trim();
+const p2Prompt = document.getElementById("bP2Prompt").value.trim();
+const p2Timer = parseInt(document.getElementById("bP2Timer").value, 10) || 45;
+const p2Vitals = parseVitalsCSV(document.getElementById("bP2Vitals").value);
+const p2Note = document.getElementById("bP2Note").value.trim();
+const p2Options = document.getElementById("bP2Options").value.split("\n").map(s => s.trim()).filter(Boolean);
+
+const expertP1 = document.getElementById("bExpertP1").value.trim();
+const expertP2 = document.getElementById("bExpertP2").value.trim();
+const pitfalls = document.getElementById("bPitfalls").value.trim();
+const questions = document.getElementById("bQuestions").value.trim();
+
+if (editId) {
+// Update existing
+const idx = scenarios.findIndex(item => https://www.google.com/url?q=http://item.id&source=gmail&ust=1794568032752000&sa=E === editId);
+if (idx !== -1) {
+scenarios[idx] = {
+id: editId,
+title, specialty, ntsFocus, role, setting, resources,
+phase1: { timerSeconds: p1Timer, vitals: p1Vitals, monitorNote: p1Note, narrative: p1Narrative, prompt: p1Prompt, options: p1Options },
+phase2: { timerSeconds: p2Timer, vitals: p2Vitals, monitorNote: p2Note, narrative: p2Narrative, prompt: p2Prompt, options: p2Options },
+debrief: { expertP1, expertP2, pitfalls, questions }
+};
+}
+} else {
+// Create new
+const newScen = {
+id: "tdg-custom-" + Date.now(),
+title, specialty, ntsFocus, role, setting, resources,
+phase1: { timerSeconds: p1Timer, vitals: p1Vitals, monitorNote: p1Note, narrative: p1Narrative, prompt: p1Prompt, options: p1Options },
+phase2: { timerSeconds: p2Timer, vitals: p2Vitals, monitorNote: p2Note, narrative: p2Narrative, prompt: p2Prompt, options: p2Options },
+debrief: { expertP1, expertP2, pitfalls, questions }
+};
+scenarios.push(newScen);
+editId = newScen.id;
+}
+
+safeSetStorage("paed_neo_tdg_scenarios_v2", JSON.stringify(scenarios));
+renderHomeHub();
+closeBuilderModal();
+
+if (editId) {
+openScenarioFromHub(editId);
+} else {
+showHomeHub();
+}
+}
+
+function exportAllJSON() {
+const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(scenarios, null, 2));
+const dlAnchor = document.createElement("a");
+dlAnchor.setAttribute("href", dataStr);
+dlAnchor.setAttribute("download", "paed_neo_tdg_scenarios_pack.json");
+document.body.appendChild(dlAnchor);
+dlAnchor.click();
+dlAnchor.remove();
+}
+
+function importJSONFile(event) {
+const file = event.target.files[0];
+if (!file) return;
+const reader = new FileReader();
+reader.onload = function(e) {
+try {
+const imported = JSON.parse(e.target.result);
+if (Array.isArray(imported) && imported.length > 0) {
+scenarios = imported;
+safeSetStorage("paed_neo_tdg_scenarios_v2", JSON.stringify(scenarios));
+renderHomeHub();
+showHomeHub();
+alert("Successfully imported " + imported.length + " scenarios into your resource hub!");
+}
+} catch (err) {
+alert("Invalid JSON scenario pack file.");
+}
+};
+reader.readAsText(file);
+}
+
+document.addEventListener("DOMContentLoaded", initApp);
+</script>
+</body>
+</html>
