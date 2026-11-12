@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paediatric & Neonatal TDG Hub | Rapid Non-Technical Decision Games</title>
+<style>
+  :root {
+    --bg-main: #f1f5f9;
+    --bg-card: #ffffff;
+    --bg-monitor: #0f172a;
+    --primary: #0284c7;
+    --primary-dark: #0369a1;
+    --secondary: #475569;
+    --accent-amber: #d97706;
+    --accent-amber-bg: #fef3c7;
+    --accent-red: #dc2626;
+    --accent-red-bg: #fee2e2;
+    --accent-green: #16a34a;
+    --accent-green-bg: #dcfce7;
+    --accent-purple: #7c3aed;
+    --accent-purple-bg: #ede9fe;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    --radius: 12px;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    line-height: 1.5;
+    padding-bottom: 50px;
+  }
+
+  /* Header Bar */
+  header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+    color: white;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  .brand-badge {
+    background: #38bdf8;
+    color: #0f172a;
+    font-weight: 800;
+    padding: 5px 9px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .brand h1 {
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  .header-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 9px 14px;
+    border-radius: 8px;
+    border: none;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: var(--primary);
+    color: white;
+  }
+
+  .btn:hover {
+    background: var(--primary-dark);
+  }
+
+  .btn-outline {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.35);
+    color: white;
+  }
+
+  .btn-outline:hover {
+    background: rgba(255,255,255,0.22);
+  }
+
+  .btn-amber {
+    background: var(--accent-amber);
+    color: white;
+  }
+
+  .btn-amber:hover {
+    background: #b45309;
+  }
+
+  .btn-green {
+    background: var(--accent-green);
+    color: white;
+  }
+
+  .btn-green:hover {
+    background: #15803d;
+  }
+
+  .btn-secondary {
+    background: #64748b;
+    color: white;
+  }
+
+  .container {
+    max-width: 1140px;
+    margin: 24px auto;
+    padding: 0 16px;
+  }
+
+  /* HOME HUB VIEW (Scenario Cards Grid) */
+  .hero-banner {
+    background: white;
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 24px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .hero-banner h2 {
+    font-size: 1.35rem;
+    margin-bottom: 6px;
+    color: var(--text-main);
+  }
+
+  .hero-banner p {
+    font-size: 0.95rem;
+    color: var(--secondary);
+    max-width: 720px;
+  }
+
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .filter-chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .filter-chip {
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: white;
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .filter-chip.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+
+  .scenario-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  .scenario-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .scenario-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    border-color: var(--primary);
+  }
+
+  .sc-top {
+    margin-bottom: 16px;
+  }
+
+  .sc-badges {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  .sc-title {
+    font-size: 1.12rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 8px;
+    line-height: 1.35;
+  }
+
+  .sc-summary {
+    font-size: 0.9rem;
+    color: var(--secondary);
+    margin-bottom: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .sc-nts-box {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 0.82rem;
+    margin-bottom: 16px;
+  }
+
+  .sc-nts-box strong {
+    display: block;
+    color: var(--primary-dark);
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    letter-spacing: 0.4px;
+    margin-bottom: 2px;
+  }
+
+  .sc-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  .card-action-btns {
+    display: flex;
+    gap: 6px;
+  }
+
+  /* Tags */
+  .tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .tag-blue { background: #e0f2fe; color: #0369a1; }
+  .tag-amber { background: var(--accent-amber-bg); color: #b45309; }
+  .tag-red { background: var(--accent-red-bg); color: #dc2626; }
+  .tag-green { background: var(--accent-green-bg); color: #16a34a; }
+  .tag-purple { background: var(--accent-purple-bg); color: #7c3aed; }
+
+  /* ACTIVE SCENARIO VIEW */
+  .top-nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .stepper {
+    display: flex;
+    justify-content: space-between;
+    background: var(--bg-card);
+    padding: 12px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    gap: 10px;
+  }
+
+  .step-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #f8fafc;
+    border: 2px solid transparent;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+  }
+
+  .step-item.active {
+    border-color: var(--primary);
+    background: #f0f9ff;
+    color: var(--primary-dark);
+  }
+
+  .step-item.completed {
+    background: var(--accent-green-bg);
+    color: var(--accent-green);
+  }
+
+  .step-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #cbd5e1;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .step-item.active .step-num {
+    background: var(--primary);
+    color: white;
+  }
+
+  .step-item.completed .step-num {
+    background: var(--accent-green);
+    color: white;
+  }
+
+  /* Grid Layout */
+  .workspace {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 20px;
+  }
+
+  @media (max-width: 900px) {
+    .workspace {
+      grid-template-columns: 1fr;
+    }
+    .stepper {
+      flex-direction: column;
+    }
+  }
+
+  .card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 22px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .card-title {
+    font-size: 1.12rem;
+    font-weight: 700;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    background: #f8fafc;
+    padding: 14px;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    border: 1px solid var(--border);
+  }
+
+  .meta-item span {
+    display: block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 700;
+  }
+
+  .meta-item strong {
+    font-size: 0.92rem;
+    color: var(--text-main);
+  }
+
+  .narrative-box {
+    font-size: 0.98rem;
+    color: #334155;
+    background: #ffffff;
+    line-height: 1.65;
+    margin-bottom: 20px;
+    white-space: pre-line;
+  }
+
+  .curveball-alert {
+    background: #fffbeb;
+    border-left: 5px solid var(--accent-amber);
+    padding: 16px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+  }
+
+  .curveball-alert h4 {
+    color: #b45309;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+
+  .prompt-box {
+    background: #f0f9ff;
+    border-left: 5px solid var(--primary);
+    padding: 16px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+  }
+
+  .prompt-box h4 {
+    color: var(--primary-dark);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .prompt-box p {
+    font-weight: 600;
+    color: #0c4a6e;
+  }
+
+  /* Debate / Tactical Stance Options */
+  .options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .option-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 13px 15px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .option-item:hover {
+    border-color: #93c5fd;
+    background: #f0f9ff;
+  }
+
+  .option-item input {
+    margin-top: 4px;
+    transform: scale(1.2);
+  }
+
+  textarea, input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+  }
+
+  /* Patient Monitor & Rapid Timer Sidebar */
+  .timer-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: var(--shadow);
+    border: 2px solid var(--border);
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .timer-display {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 2.85rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin: 10px 0;
+    padding: 8px;
+    border-radius: 8px;
+    background: #f8fafc;
+    border: 2px solid var(--border);
+  }
+
+  .timer-display.warning {
+    color: var(--accent-amber);
+    border-color: var(--accent-amber);
+    background: var(--accent-amber-bg);
+  }
+
+  .timer-display.danger {
+    color: var(--accent-red);
+    border-color: var(--accent-red);
+    background: var(--accent-red-bg);
+    animation: pulse 0.7s infinite;
+  }
+
+  .timer-controls {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+
+  .monitor {
+    background: var(--bg-monitor);
+    color: #f8fafc;
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    border: 2px solid #334155;
+  }
+
+  .monitor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #334155;
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #94a3b8;
+  }
+
+  .live-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+    margin-right: 6px;
+    animation: pulse 1.4s infinite;
+  }
+
+  @keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.25; }
+    100% { opacity: 1; }
+  }
+
+  .vitals-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .vital-box {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 10px;
+    border-radius: 6px;
+  }
+
+  .vital-label {
+    font-size: 0.68rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .vital-value {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 1.22rem;
+    font-weight: 700;
+    margin-top: 2px;
+  }
+
+  .v-hr { color: #4ade80; }
+  .v-bp { color: #f87171; }
+  .v-spo2 { color: #38bdf8; }
+  .v-rr { color: #facc15; }
+  .v-temp { color: #c084fc; }
+  .v-news { color: #fb923c; }
+
+  /* Debrief Comparison Table */
+  .debrief-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 700px) {
+    .debrief-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .debrief-col {
+    background: #f8fafc;
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+
+  .debrief-col h4 {
+    font-size: 0.88rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
+  }
+
+  /* Modal / Template Builder */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(15, 23, 42, 0.75);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 14px;
+  }
+
+  .modal-overlay.open {
+    display: flex;
+  }
+
+  .modal-content {
+    background: white;
+    max-width: 850px;
+    width: 100%;
+    max-height: 90vh;
+    border-radius: 12px;
+    padding: 22px;
+    overflow-y: auto;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.25);
+  }
+
+  .form-section {
+    background: #f8fafc;
+    padding: 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+
+  .form-section h3 {
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+    color: var(--primary-dark);
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  @media (max-width: 650px) {
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--secondary);
+    margin-bottom: 4px;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand" onclick="showHomeHub()">
+    <span class="brand-badge">PAED &amp; NEO TDG</span>
+    <h1>Tactical Decision Games</h1>
+  </div>
+  <div class="header-controls">
+    <button class="btn btn-outline" id="homeNavBtn" onclick="showHomeHub()">All Scenarios</button>
+    <button class="btn btn-outline" onclick="openBuilderModalForNew()">+ Create TDG</button>
+    <button class="btn btn-outline" onclick="exportAllJSON()">Export Pack</button>
+    <label class="btn btn-outline" style="margin:0; cursor:pointer;">
+      Import JSON <input type="file" accept=".json" onchange="importJSONFile(event)" style="display:none;">
+    </label>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- ==================== VIEW 1: SCENARIO HUB (MAIN PAGE) ==================== -->
+  <div id="homeHubView">
+    <div class="hero-banner">
+      <div>
+        <h2>Paediatric &amp; Neonatal Tactical Decision Hub</h2>
+        <p>Rapid, 2-stage clinical decision games designed to spark team debate around crisis resource management, authority gradients, competing priorities, and cognitive biases under strict time pressure (45&ndash;60s).</p>
+      </div>
+      <div>
+        <button class="btn" onclick="openBuilderModalForNew()">+ Add New Scenario Variation</button>
+      </div>
+    </div>
+
+    <div class="filter-bar">
+      <div class="filter-chips">
+        <button class="filter-chip active" id="filter-all" onclick="setSpecialtyFilter('ALL')">All Scenarios</button>
+        <button class="filter-chip" id="filter-neo" onclick="setSpecialtyFilter('Neonatal')">Neonatal</button>
+        <button class="filter-chip" id="filter-paed" onclick="setSpecialtyFilter('Paediatric')">Paediatric</button>
+      </div>
+      <div style="font-size:0.85rem; color:var(--text-muted);">
+        💡 To edit a scenario, click <strong>"Edit"</strong> on any card or export/import JSON packs.
+      </div>
+    </div>
+
+    <div class="scenario-grid" id="scenarioGrid"></div>
+  </div>
+
+  <!-- ==================== VIEW 2: ACTIVE SCENARIO PLAYER ==================== -->
+  <div id="scenarioPlayerView" class="hidden">
+    <div class="top-nav-bar">
+      <button class="btn btn-secondary" onclick="showHomeHub()">&larr; Back to Scenario Hub</button>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <span style="font-size:0.85rem; font-weight:700; color:var(--secondary);" id="activeNtsFocusBanner"></span>
+        <button class="btn btn-amber" onclick="openBuilderModalForEdit(currentScenario.id)" style="padding:6px 12px; font-size:0.8rem;">✏️ Edit This Scenario</button>
+      </div>
+    </div>
+
+    <!-- Interactive Phase Stepper -->
+    <div class="stepper">
+      <div class="step-item active" id="stepTab1" onclick="goToPhase(1)">
+        <div class="step-num">1</div>
+        <div>
+          <div>Stage 1: Initial Dilemma</div>
+          <small style="font-weight:400; font-size:0.75rem;">Rapid Timed Decision 1</small>
+        </div>
+      </div>
+      <div class="step-item" id="stepTab2" onclick="goToPhase(2)">
+        <div class="step-num">2</div>
+        <div>
+          <div>Stage 2: The Curveball</div>
+          <small style="font-weight:400; font-size:0.75rem;">New Info &amp; Timed Decision 2</small>
+        </div>
+      </div>
+      <div class="step-item" id="stepTab3" onclick="goToPhase(3)">
+        <div class="step-num">3</div>
+        <div>
+          <div>Stage 3: Team Debate &amp; Debrief</div>
+          <small style="font-weight:400; font-size:0.75rem;">Trade-Offs &amp; Human Factors</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="workspace">
+      <!-- Left Column: Scenario & Decision Flow -->
+      <div class="main-panel">
+
+        <!-- PHASE 1 VIEW -->
+        <div id="phase1View" class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <span class="tag tag-blue">Stage 1</span>
+              <span id="p1Title">Scenario Title</span>
+            </div>
+            <span id="p1Specialty" class="tag tag-purple">Specialty</span>
+          </div>
+
+          <div class="meta-grid">
+            <div class="meta-item">
+              <span>Your Role</span>
+              <strong id="p1Role">-</strong>
+            </div>
+            <div class="meta-item">
+              <span>Setting &amp; Shift</span>
+              <strong id="p1Setting">-</strong>
+            </div>
+            <div class="meta-item">
+              <span>Team &amp; Constraints</span>
+              <strong id="p1Resources">-</strong>
+            </div>
+          </div>
+
+          <h4 style="margin-bottom:8px; color:var(--secondary); font-size:0.82rem; text-transform:uppercase;">Presenting Situation</h4>
+          <div class="narrative-box" id="p1Narrative"></div>
+
+          <div class="prompt-box">
+            <h4>Rapid Tactical Decision 1 (Commit Before Timer Expires)</h4>
+            <p id="p1Prompt"></p>
+          </div>
+
+          <!-- In-card Rapid Timer Widget Stage 1 -->
+          <div cl
